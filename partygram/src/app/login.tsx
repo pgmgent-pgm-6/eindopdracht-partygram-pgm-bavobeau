@@ -1,15 +1,22 @@
-import { StyleSheet, View } from "react-native";
-import Button from "@design/Button/Button";
-import TextField from "@design/Form/TextField";
+import { StyleSheet } from "react-native";
+import { LoginBody, login } from "@core/modules/auth/api";
+import TextButton from "@design/Button/TextButton";
 import Logo from "@design/Logo/Logo";
-import Title from "@design/Text/Title";
-import { Variables } from "@style";
-import DefaultView from "@design/View/DefaultView";
-import { useMutation } from "@tanstack/react-query";
-import { login } from "@core/modules/auth/api";
-import { useState } from "react";
-import { useRouter } from "expo-router";
 import ErrorMessage from "@design/Text/ErrorMessage";
+import Title from "@design/Text/Title";
+import CenteredView from "@design/View/CenteredView";
+import AppForm from "@shared/Formik/AppForm";
+import AppSubmitButton from "@shared/Formik/AppSubmitButton";
+import AppTextField from "@shared/Formik/AppTextField";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import * as yup from "yup";
+import { Variables } from "@style";
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -17,70 +24,56 @@ const LoginScreen = () => {
     mutationFn: login,
   });
 
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleSubmit = () => {
+  const handleSubmit = (data: LoginBody) => {
     mutate(data, {
       onSuccess: () => {
-        router.push("/(app)/(tabs)/");
+        router.push("/(app)/(tabs)");
       },
     });
   };
 
-  const setDataField = (name: string, value: string) => {
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
-
   return (
-    <DefaultView style={styles.container}>
-      <Logo />
-      <Title style={styles.title}>Login met je account</Title>
-      {isError && <ErrorMessage error={error} />}
-      <TextField
-        label="Email"
-        name="email"
-        value={data.email}
-        placeholder="john@doe.com"
-        autoComplete="email"
-        keyboardType="email-address"
-        disabled={isPending}
-        onChangeText={(text: string) => setDataField("email", text)}
-      />
-      <TextField
-        label="Password"
-        name="password"
-        value={data.password}
-        secureTextEntry={true}
-        disabled={isPending}
-        onChangeText={(text: string) => setDataField("password", text)}
-      />
-      <Button onPress={handleSubmit} disabled={isPending} style={styles.button}>
-        Login
-      </Button>
-    </DefaultView>
+    <AppForm
+      initialValues={{ email: "", password: "" }}
+      validationSchema={schema}
+      onSubmit={handleSubmit}
+    >
+      <CenteredView style={styles.container}>
+        <Logo />
+        <Title>Login</Title>
+        {isError && <ErrorMessage error={error} />}
+        <AppTextField
+          label="Email"
+          name="email"
+          placeholder="john@doe.com"
+          autoComplete="email"
+          keyboardType="email-address"
+          disabled={isPending}
+        />
+        <AppTextField
+          label="Password"
+          name="password"
+          secureTextEntry
+          disabled={isPending}
+        />
+        <AppSubmitButton disabled={isPending}>Login</AppSubmitButton>
+        <TextButton
+          style={styles.textButton}
+          onPress={() => router.push("/auth/register")}
+        >
+          Nog geen account? Registreer hier
+        </TextButton>
+      </CenteredView>
+    </AppForm>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Variables.sizes.xxxxl * 2,
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: Variables.sizes.xxxxl * 2,
   },
-  title: {
-    marginTop: Variables.sizes.medium,
-    marginBottom: Variables.sizes.xl,
-  },
-  button: {
-    marginTop: Variables.sizes.xs,
-    width: "100%",
+  textButton: {
+    marginTop: 10,
   },
 });
 

@@ -1,10 +1,9 @@
-import Text from "@design/Text/Text";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const LogScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home screen</Text>
+      <Text style={styles.title}>Home Screen</Text>
     </View>
   );
 };

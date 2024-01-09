@@ -1,4 +1,4 @@
-import { Tabs, useRouter } from "expo-router";
+import { Tabs } from "expo-router";
 import { DefaultNavigatorOptions, Variables } from "@style";
 import Icons from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -19,11 +19,10 @@ const getTabIcon = (name: string, focused: boolean) => {
       break;
   }
 
-  return focused ? icon : `${icon}`;
+  return focused ? icon : `${icon}-outline`;
 };
 
 const TabLayout = () => {
-  const router = useRouter();
   return (
     <Tabs
       screenOptions={({ route }) => ({

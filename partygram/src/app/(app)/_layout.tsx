@@ -1,9 +1,7 @@
 import { useAuthContext } from "@shared/Auth/AuthProvider";
 import { Redirect, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-export const unstable_settings = {
-  initialRouteName: "(tabs)",
-};
+import { DefaultNavigatorOptions } from "@style";
 
 const AppLayout = () => {
   const { isLoggedIn } = useAuthContext();
@@ -11,10 +9,11 @@ const AppLayout = () => {
   if (!isLoggedIn) {
     return <Redirect href="/login" />;
   }
+
   return (
     <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
+      <Stack screenOptions={{ ...DefaultNavigatorOptions.screenOptions }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
     </>
