@@ -8,14 +8,14 @@ const getTabIcon = (name: string, focused: boolean) => {
     case "index":
       icon = "home";
       break;
-    case "projects":
-      icon = "folder";
+    case "search":
+      icon = "magnify";
+      return "magnify";
+    case "favorites":
+      icon = "heart";
       break;
-    case "clients":
-      icon = "briefcase-account";
-      break;
-    case "settings":
-      icon = "cog";
+    case "profile":
+      icon = "account";
       break;
   }
 
@@ -36,25 +36,29 @@ const TabLayout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Logs",
+          title: "Home",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="projects"
+        name="search"
         options={{
-          title: "Projects",
+          title: "Search",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="clients"
+        name="favorites"
         options={{
-          title: "Clients",
+          title: "Favorites",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="profile"
         options={{
-          title: "Settings",
+          title: "Profile",
+          headerShown: false,
         }}
       />
     </Tabs>
