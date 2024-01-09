@@ -1,27 +1,28 @@
-import { StyleSheet, Text, View } from "react-native";
+import Header from "@design/Header/Header";
+import Text from "@design/Text/Text";
+import DefaultView from "@design/View/DefaultView";
+import { Variables } from "@style";
+import { useNavigation } from "expo-router";
+import { StyleSheet } from "react-native";
 
 const LogScreen = () => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-    </View>
+    <DefaultView style={styles.container} padding={false}>
+      <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} />
+      <Text style={styles.title}>Home</Text>
+    </DefaultView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: Variables.sizes.xl,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });
 
