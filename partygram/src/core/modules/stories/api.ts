@@ -1,5 +1,5 @@
 import { supabase } from "@core/api/supabase";
-import { Storie, Stories } from "./types";
+import { Story, Stories } from "./types";
 
 export const getStories = async (): Promise<Stories | null> => {
   const { data } = await supabase
@@ -11,7 +11,7 @@ export const getStories = async (): Promise<Stories | null> => {
   return Promise.resolve(data);
 }
 
-export const getStorieById = async (uid: string | number) => {
+export const getStoryById = async (uid: string | number) => {
   const response = await supabase
     .from("stories")
     .select("*")
@@ -22,16 +22,30 @@ export const getStorieById = async (uid: string | number) => {
   return Promise.resolve(response.data);
 }
 
-export const createStorie = async (storie: Storie) => {
+export const getOwnersWithStoryFromLastDay = async (): Promise<string[] | null> => {
   const response = await supabase
     .from("stories")
-    .insert(storie)
+    .select("owner_id")
+    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000))
+    .order("created_at", { ascending: true })
+    .throwOnError();
+    
+  if (!response.data) return null;
+  const uniqueOwnerIds = [...new Set(response.data.map(story => story.owner_id))];
+
+  return Promise.resolve(uniqueOwnerIds);
+}
+
+export const createStory = async (story: Story) => {
+  const response = await supabase
+    .from("stories")
+    .insert(story)
     .throwOnError()
     .single();
   return Promise.resolve(response.data);
 }
 
-export const deleteStorie = async (id: string | number) => {
+export const deleteStory = async (id: string | number) => {
   const response = await supabase
     .from("stories")
     .delete()

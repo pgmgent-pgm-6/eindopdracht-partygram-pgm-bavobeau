@@ -1,4 +1,5 @@
 import Header from "@design/Header/Header";
+import StoriesList from "@design/Stories/StoriesList";
 import Text from "@design/Text/Text";
 import DefaultView from "@design/View/DefaultView";
 import { Variables } from "@style";
@@ -11,6 +12,7 @@ const LogScreen = () => {
   return (
     <DefaultView style={styles.container} padding={false}>
       <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} />
+      <StoriesList />
       <Text style={styles.title}>Home</Text>
     </DefaultView>
   );
