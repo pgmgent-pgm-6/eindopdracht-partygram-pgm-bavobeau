@@ -1,28 +1,43 @@
 import { Variables } from '@style';
+import { useRouter } from 'expo-router';
 import React from 'react'
 import { Image, ImageStyle, Pressable, StyleProp, StyleSheet } from 'react-native';
 
 type Props = {
-  story_id: string;
-  style?: StyleProp<ImageStyle>;
+  user_id: string;
+  story_id: number;
 };
 
-const Story = ({style}: Props) => {
+const Story = ({user_id,story_id}: Props) => {
+  const router = useRouter();
+
+  const handleShowStory = () => {
+    router.push(`/stories/${story_id}`);
+  }
+
   return (
-    <Pressable>
-      <Image style={[styles.story, style]} source={require("@assets/images/favicon.png")} />
+    <Pressable style={styles.press} accessibilityLabel="story from" onPress={handleShowStory}>
+      <Image style={styles.story} source={require("@assets/images/favicon.png")} />
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
+  press: {
+    width: 64,
+    height: 64,
+    borderRadius: 64,
+    backgroundColor: Variables.colors.grayLight,
+    marginHorizontal: Variables.sizes.xs,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   story: {
     width: 64,
     height: 64,
     borderRadius: 64,
     borderWidth: 3,
     borderColor: Variables.colors.secondary,
-    backgroundColor: Variables.colors.grayLight,
     marginHorizontal: 8,
   },
 });

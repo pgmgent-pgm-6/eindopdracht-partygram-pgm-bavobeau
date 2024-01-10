@@ -1,6 +1,6 @@
 import { supabase } from "@core/api/supabase";
 import { Session } from "@supabase/supabase-js";
-import { CreateUserBody, UpdateUserBody, UserMetaData } from "./types";
+import { CreateUserBody, UpdateUserBody } from "./types";
 import { uploadImage } from "../files/api";
 import { Bucket } from "../files/constants";
 

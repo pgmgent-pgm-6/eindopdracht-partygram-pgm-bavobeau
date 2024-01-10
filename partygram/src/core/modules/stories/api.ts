@@ -9,7 +9,7 @@ export const getStories = async (): Promise<Stories | null> => {
     .throwOnError()
     .limit(10);
   return Promise.resolve(data);
-}
+};
 
 export const getStoryById = async (uid: string | number) => {
   const response = await supabase
@@ -20,21 +20,31 @@ export const getStoryById = async (uid: string | number) => {
     .single();
 
   return Promise.resolve(response.data);
-}
+};
 
-export const getOwnersWithStoryFromLastDay = async (): Promise<string[] | null> => {
+export const getLastStoriesFromLastDay = async () => {
   const response = await supabase
     .from("stories")
-    .select("owner_id")
+    .select("owner_id, id")
     .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000))
-    .order("created_at", { ascending: true })
+    .order("owner_id, created_at", { ascending: false })
     .throwOnError();
-    
-  if (!response.data) return null;
-  const uniqueOwnerIds = [...new Set(response.data.map(story => story.owner_id))];
 
-  return Promise.resolve(uniqueOwnerIds);
-}
+  // Extracting the latest story for each owner
+  const latestStories = [];
+  const seenOwners = new Set();
+
+  if (!response.data) return Promise.resolve([]);
+  for (const story of response.data) {
+    if (!seenOwners.has(story.owner_id)) {
+      latestStories.push(story);
+      seenOwners.add(story.owner_id);
+      seenOwners.add(story.id);
+    }
+  }
+
+  return Promise.resolve(latestStories);
+};
 
 export const createStory = async (story: Story) => {
   const response = await supabase
@@ -43,7 +53,7 @@ export const createStory = async (story: Story) => {
     .throwOnError()
     .single();
   return Promise.resolve(response.data);
-}
+};
 
 export const deleteStory = async (id: string | number) => {
   const response = await supabase
@@ -53,4 +63,4 @@ export const deleteStory = async (id: string | number) => {
     .throwOnError()
     .single();
   return Promise.resolve(response.data);
-}
+};
