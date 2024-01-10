@@ -17,8 +17,8 @@ export type CreateUserBody = {
 
 export type UpdateUserBody = Partial<
   {
+    id: string
     email: string;
     password?: string;
-    id: string
   } & UserMetaData
 >;
