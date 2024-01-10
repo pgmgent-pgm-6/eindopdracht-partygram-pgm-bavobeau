@@ -70,6 +70,7 @@ const UserForm = <T extends CreateUserBody | UpdateUserBody>({
         )}
         <AppTextField name="first_name" label="First name" disabled={isPending} />
         <AppTextField name="last_name" label="Last name" disabled={isPending} />
+        <AppTextField name="condition" label="Condition" disabled={isPending} />
         <AppSubmitButton disabled={isPending}>{label}</AppSubmitButton>
       </View>
     </AppForm>

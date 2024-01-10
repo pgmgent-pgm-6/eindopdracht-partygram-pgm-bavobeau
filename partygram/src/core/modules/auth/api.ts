@@ -1,6 +1,6 @@
 import { supabase } from "@core/api/supabase";
 import { Session } from "@supabase/supabase-js";
-import { CreateUserBody, UpdateUserBody } from "./types";
+import { CreateUserBody, UpdateUserBody, UserMetaData } from "./types";
 import { uploadImage } from "../files/api";
 import { Bucket } from "../files/constants";
 
@@ -44,6 +44,7 @@ export const createUser = async (user: CreateUserBody) => {
       data: {
         first_name: user.first_name,
         last_name: user.last_name,
+        condition: user.condition,
       },
     },
   });

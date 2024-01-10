@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { LoginBody, login } from "@core/modules/auth/api";
+import { LoginBody, createUser, login } from "@core/modules/auth/api";
 import TextButton from "@design/Button/TextButton";
 import Logo from "@design/Logo/Logo";
 import ErrorMessage from "@design/Text/ErrorMessage";

@@ -1,6 +1,6 @@
 import useTitle from "@core/hooks/useTitle";
 import { createUser } from "@core/modules/auth/api";
-import CenteredView from "@design/View/CenteredView";
+import DefaultView from "@design/View/DefaultView";
 import UserForm from "@shared/User/UserForm";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -11,7 +11,7 @@ const RegisterScreen = () => {
 
   return (
     <>
-      <CenteredView>
+      <DefaultView>
         <UserForm
           updateMethod={createUser}
           onSuccess={() => router.push("/(app)/(tabs)")}
@@ -21,9 +21,10 @@ const RegisterScreen = () => {
             password: "",
             first_name: "",
             last_name: "",
+            condition: true,
           }}
-        />
-      </CenteredView>
+          />
+        </DefaultView>
       <StatusBar style="light" />
     </>
   );
