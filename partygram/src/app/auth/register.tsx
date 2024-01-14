@@ -21,7 +21,7 @@ const RegisterScreen = () => {
             password: "",
             first_name: "",
             last_name: "",
-            condition: true,
+            condition: false,
           }}
           />
         </DefaultView>
