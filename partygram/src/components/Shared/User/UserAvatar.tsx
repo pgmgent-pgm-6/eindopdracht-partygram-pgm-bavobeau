@@ -2,24 +2,32 @@ import { Pressable } from "react-native";
 import ImageAvatar from "@design/Avatar/ImageAvatar";
 import TextAvatar from "@design/Avatar/TextAvatar";
 import { useAuthContext } from "../Auth/AuthProvider";
-import { updateUserAvatar } from "@core/modules/auth/api";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import LoadingAvatar from "@design/Avatar/LoadingAvatar";
 import isVoid from "@core/utils/isVoid";
 import ImagePickerDialog from "@design/ImagePicker/ImagePickerDialog";
-import { getAvatarUrl } from "@core/modules/auth/utils";
+import { getProfileById, updateProfileAvatar } from "@core/modules/profiles/api";
+import { getAvatarUrl } from "@core/modules/profiles/utils";
+import { Profile } from "@core/modules/profiles/types";
 
-const UserEditableAvatar = () => {
+const userEditableAvatar = () => {
   const [showPicker, setShowPicker] = useState(false);
+  const [profile, setProfile] = useState<Profile>();
   const { user } = useAuthContext();
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: (file: string) => updateUserAvatar(file),
+    mutationFn: (file: string) => updateProfileAvatar(file),
   });
 
   const handleAvatarPress = () => {
     setShowPicker(true);
   };
+
+  useEffect(() => {
+    if (user) {
+      getProfileById(user.id).then((profile) => setProfile(profile));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isError) {
@@ -38,11 +46,11 @@ const UserEditableAvatar = () => {
   if (isPending) {
     return <LoadingAvatar />;
   }
-
+  
   // get full path to avatar
-  const avatarUrl = getAvatarUrl(user);
+  const avatarUrl = getAvatarUrl(profile);
 
-  if (!user) {
+  if (!user || !profile) {
     return;
   }
 
@@ -50,7 +58,7 @@ const UserEditableAvatar = () => {
     <>
       <Pressable onPress={handleAvatarPress}>
         {!avatarUrl ? (
-          <TextAvatar>{`${user.first_name[0]}${user.last_name[0]}`}</TextAvatar>
+          <TextAvatar>{`${profile.first_name}${profile.last_name}`}</TextAvatar>
         ) : (
           <ImageAvatar source={{ uri: avatarUrl }} />
         )}
@@ -60,4 +68,4 @@ const UserEditableAvatar = () => {
   );
 };
 
-export default UserEditableAvatar;
+export default userEditableAvatar;

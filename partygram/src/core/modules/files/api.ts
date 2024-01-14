@@ -11,6 +11,7 @@ export const uploadFile = async (bucket: string, filename: string, image: string
   const { data, error } = await supabase.storage.from(bucket).upload(filename, decode(image), settings);
 
   if (error) {
+    console.error(error);
     return Promise.reject(error);
   }
   return Promise.resolve(data);

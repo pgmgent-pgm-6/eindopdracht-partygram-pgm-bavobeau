@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import ListDialog from "@design/Dialog/ListDialog";
+import ListDialog from "../Dialog/ListDialog";
 
 type Props = {
   onDismiss: () => void;

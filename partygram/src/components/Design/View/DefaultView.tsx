@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   },
   viewPadding: {
     paddingVertical: Variables.sizes.xl,
-    paddingHorizontal: Variables.sizes.horizontalPadding,
   },
 });
 

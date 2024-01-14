@@ -1,8 +1,6 @@
 import { supabase } from "@core/api/supabase";
 import { Session } from "@supabase/supabase-js";
 import { CreateUserBody, UpdateUserBody } from "./types";
-import { uploadImage } from "../files/api";
-import { Bucket } from "../files/constants";
 
 export const getCurrentSession = async (): Promise<Session | null> => {
   const {
@@ -60,29 +58,6 @@ export const updateUser = async (body: UpdateUserBody) => {
 
   const { data, error } = await supabase.auth.updateUser({
     email: email,
-    data: {
-      ...user,
-    },
-  });
-
-  if (error) {
-    return Promise.reject(error);
-  }
-
-  return Promise.resolve(data.user);
-};
-
-export const updateUserAvatar = async (avatar: string) => {
-  const session = await getCurrentSession();
-  // upload file
-  const fileName = `${session?.user.id}/${Date.now()}.jpg`;
-  await uploadImage(Bucket.Avatars, fileName, avatar);
-
-  const { data, error } = await supabase.auth.updateUser({
-    data: {
-      ...session?.user.user_metadata, // first_name, last_name, avatar (previous)
-      avatar: fileName,
-    },
   });
 
   if (error) {

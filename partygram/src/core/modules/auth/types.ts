@@ -8,7 +8,7 @@ export type UserMetaData = {
 export type User = {
   id: string;
   email: string;
-} & UserMetaData;
+};
 
 export type CreateUserBody = {
   email: string;
@@ -20,5 +20,5 @@ export type UpdateUserBody = Partial<
     id: string
     email: string;
     password?: string;
-  } & UserMetaData
+  }
 >;

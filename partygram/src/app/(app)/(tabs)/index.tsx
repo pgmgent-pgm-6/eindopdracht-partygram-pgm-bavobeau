@@ -2,15 +2,11 @@ import Header from "@design/Header/Header";
 import StoriesList from "@design/Stories/StoriesList";
 import Text from "@design/Text/Text";
 import DefaultView from "@design/View/DefaultView";
-import { Variables } from "@style";
-import { useNavigation } from "expo-router";
 import { StyleSheet } from "react-native";
 
 const LogScreen = () => {
-  const navigation = useNavigation();
-
   return (
-    <DefaultView style={styles.container} padding={false}>
+    <DefaultView style={styles.container} >
       <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} />
       <StoriesList />
       <Text style={styles.title}>Home</Text>
@@ -20,7 +16,7 @@ const LogScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Variables.sizes.xl,
+    
   },
   title: {
     fontSize: 20,
