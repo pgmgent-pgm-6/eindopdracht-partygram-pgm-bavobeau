@@ -1,7 +1,7 @@
 import { Variables } from '@style';
 import { useRouter } from 'expo-router';
 import React from 'react'
-import { Image, ImageStyle, Pressable, StyleProp, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet } from 'react-native';
 
 type Props = {
   user_id: string;

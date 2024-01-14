@@ -1,5 +1,4 @@
 import { StyleProp, StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
-import React from "react";
 import isVoid from "@core/utils/isVoid";
 import { DefaultStyles, Variables } from "@style";
 import FieldError from "@design/Form/FieldError";

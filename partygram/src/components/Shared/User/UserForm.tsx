@@ -6,6 +6,7 @@ import ErrorMessage from "@design/Text/ErrorMessage";
 import AppForm from "../Formik/AppForm";
 import AppSubmitButton from "../Formik/AppSubmitButton";
 import { CreateUserBody, UpdateUserBody } from "@core/modules/auth/types";
+import AppSwitch from "../Formik/AppSwitch";
 
 const getSchema = (options: Options) => {
   return yup.object().shape({
@@ -13,6 +14,7 @@ const getSchema = (options: Options) => {
     ...(options.showPassword ? { password: yup.string().min(8).required() } : {}),
     first_name: yup.string().required(),
     last_name: yup.string().required(),
+    condition: yup.boolean().required(),
   });
 };
 
@@ -70,7 +72,7 @@ const UserForm = <T extends CreateUserBody | UpdateUserBody>({
         )}
         <AppTextField name="first_name" label="First name" disabled={isPending} />
         <AppTextField name="last_name" label="Last name" disabled={isPending} />
-        <AppTextField name="condition" label="Condition" disabled={isPending} />
+        <AppSwitch name="condition" label="Do you agree with our conditions?" disabled={isPending} />
         <AppSubmitButton disabled={isPending}>{label}</AppSubmitButton>
       </View>
     </AppForm>
