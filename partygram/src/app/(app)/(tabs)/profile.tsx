@@ -11,6 +11,7 @@ import { getPostsByUser } from "@core/modules/posts/api";
 import { Posts } from "@core/modules/posts/types";
 import { Stories } from "@core/modules/stories/types";
 import { getStoriesByUser } from "@core/modules/stories/api";
+import { Variables } from "@style";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile>();
@@ -45,6 +46,7 @@ const ProfilePage = () => {
       />
       <UserHeader
         onPress={() => router.push("/profile/edit")}
+        imageStyle={styles.userHeader}
         profile={profile}
         totalPosts={posts.length}
         totalStories={stories.length}
@@ -55,6 +57,10 @@ const ProfilePage = () => {
 
 const styles = StyleSheet.create({
   container: {},
+  userHeader: {
+    width: Variables.sizes.xxxxl * 2,
+    height: Variables.sizes.xxxxl * 2,
+  },
 });
 
 export default ProfilePage;

@@ -6,6 +6,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { StyleSheet, View, Text } from "react-native";
 import { useState } from "react";
 import { useRouter } from "expo-router";
+import { Variables } from "@style";
 
 const StoriesList = () => {
   const router = useRouter();
@@ -54,6 +55,8 @@ const StoriesList = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    marginVertical: Variables.sizes.medium,
+    marginHorizontal: Variables.sizes.small,
   },
 });
 

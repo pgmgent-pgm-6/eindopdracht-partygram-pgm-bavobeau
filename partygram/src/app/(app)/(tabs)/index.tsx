@@ -6,11 +6,13 @@ import { StyleSheet } from "react-native";
 
 const LogScreen = () => {
   return (
-    <DefaultView style={styles.container} >
+    <>
+      <DefaultView style={styles.container} >
       <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} />
       <StoriesList />
       <Text style={styles.title}>Home</Text>
-    </DefaultView>
+      </DefaultView>
+    </>
   );
 };
 

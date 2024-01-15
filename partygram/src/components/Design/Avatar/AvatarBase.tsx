@@ -12,8 +12,8 @@ const AvatarBase = ({ style, children }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: Variables.sizes.xxxl * 2,
-    height: Variables.sizes.xxxl * 2,
+    width: Variables.sizes.xxxxl,
+    height: Variables.sizes.xxxxl,
     borderRadius: Variables.sizes.xxxxl,
     backgroundColor: Variables.colors.grayLight,
     justifyContent: "center",

@@ -1,11 +1,11 @@
 import isVoid from "@core/utils/isVoid";
 import { Bucket } from "../files/constants";
 import { getPublicUrl } from "../files/utils";
-import { Storie } from "./types";
+import { Story } from "./types";
 
-export const getAvatarUrl = (storie?: Storie | null) => {
-  if (!storie || isVoid(storie.image)) {
+export const getStoryImageUrl = (story?: Story | null) => {
+  if (!story || isVoid(story.image)) {
     return null;
   }
-  return getPublicUrl(Bucket.Stories, storie.image);
+  return getPublicUrl(Bucket.Stories, story.image);
 };

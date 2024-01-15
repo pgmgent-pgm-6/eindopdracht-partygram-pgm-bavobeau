@@ -1,4 +1,4 @@
-import { Pressable } from "react-native";
+import { Pressable, StyleProp } from "react-native";
 import ImageAvatar from "@design/Avatar/ImageAvatar";
 import TextAvatar from "@design/Avatar/TextAvatar";
 import { useAuthContext } from "../Auth/AuthProvider";
@@ -11,7 +11,11 @@ import { getProfileById, updateProfileAvatar } from "@core/modules/profiles/api"
 import { getAvatarUrl } from "@core/modules/profiles/utils";
 import { Profile } from "@core/modules/profiles/types";
 
-const userEditableAvatar = () => {
+type Props = {
+  imageStyle?: StyleProp<Object>;
+};
+
+const userEditableAvatar = ({imageStyle}: Props) => {
   const [showPicker, setShowPicker] = useState(false);
   const [profile, setProfile] = useState<Profile>();
   const { user } = useAuthContext();
@@ -58,9 +62,9 @@ const userEditableAvatar = () => {
     <>
       <Pressable onPress={handleAvatarPress}>
         {!avatarUrl ? (
-          <TextAvatar>{`${profile.first_name}${profile.last_name}`}</TextAvatar>
+          <TextAvatar style={imageStyle}>{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</TextAvatar>
         ) : (
-          <ImageAvatar source={{ uri: avatarUrl }} />
+          <ImageAvatar source={{ uri: avatarUrl }} style={imageStyle} />
         )}
       </Pressable>
       {showPicker && <ImagePickerDialog onDismiss={() => setShowPicker(false)} onImage={handleImage} />}
