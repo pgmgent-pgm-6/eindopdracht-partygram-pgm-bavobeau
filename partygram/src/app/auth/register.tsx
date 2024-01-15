@@ -19,6 +19,7 @@ const RegisterScreen = () => {
           initialValues={{
             email: "",
             password: "",
+            username: "",
             first_name: "",
             last_name: "",
             condition: false,

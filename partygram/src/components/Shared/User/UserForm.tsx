@@ -69,7 +69,8 @@ const UserForm = <T extends CreateUserBody | UpdateUserBody>({
         />
         {formOptions.showPassword && (
           <AppTextField name="password" label="Password" secureTextEntry={true} disabled={isPending} />
-        )}
+          )}
+        <AppTextField name="username" label="Username" disabled={isPending} />
         <AppTextField name="first_name" label="First name" disabled={isPending} />
         <AppTextField name="last_name" label="Last name" disabled={isPending} />
         <AppSwitch name="condition" label="Do you agree with our conditions?" disabled={isPending} />
