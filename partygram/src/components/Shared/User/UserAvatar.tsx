@@ -7,7 +7,10 @@ import { useMutation } from "@tanstack/react-query";
 import LoadingAvatar from "@design/Avatar/LoadingAvatar";
 import isVoid from "@core/utils/isVoid";
 import ImagePickerDialog from "@design/ImagePicker/ImagePickerDialog";
-import { getProfileById, updateProfileAvatar } from "@core/modules/profiles/api";
+import {
+  getProfileById,
+  updateProfileAvatar,
+} from "@core/modules/profiles/api";
 import { getAvatarUrl } from "@core/modules/profiles/utils";
 import { Profile } from "@core/modules/profiles/types";
 
@@ -15,7 +18,7 @@ type Props = {
   imageStyle?: StyleProp<Object>;
 };
 
-const userEditableAvatar = ({imageStyle}: Props) => {
+const userEditableAvatar = ({ imageStyle }: Props) => {
   const [showPicker, setShowPicker] = useState(false);
   const [profile, setProfile] = useState<Profile>();
   const { user } = useAuthContext();
@@ -28,9 +31,12 @@ const userEditableAvatar = ({imageStyle}: Props) => {
   };
 
   useEffect(() => {
-    if (user) {
-      getProfileById(user.id).then((profile) => setProfile(profile));
-    }
+    const interval = setInterval(() => {
+      if (user) {
+        getProfileById(user.id).then((profile) => setProfile(profile));
+      }
+    }, 10000);
+    return () => clearInterval(interval);
   }, [user]);
 
   useEffect(() => {
@@ -50,7 +56,7 @@ const userEditableAvatar = ({imageStyle}: Props) => {
   if (isPending) {
     return <LoadingAvatar />;
   }
-  
+
   // get full path to avatar
   const avatarUrl = getAvatarUrl(profile);
 
@@ -62,12 +68,19 @@ const userEditableAvatar = ({imageStyle}: Props) => {
     <>
       <Pressable onPress={handleAvatarPress}>
         {!avatarUrl ? (
-          <TextAvatar style={imageStyle}>{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</TextAvatar>
+          <TextAvatar style={imageStyle}>{`${profile.first_name.charAt(
+            0
+          )}${profile.last_name.charAt(0)}`}</TextAvatar>
         ) : (
           <ImageAvatar source={{ uri: avatarUrl }} style={imageStyle} />
         )}
       </Pressable>
-      {showPicker && <ImagePickerDialog onDismiss={() => setShowPicker(false)} onImage={handleImage} />}
+      {showPicker && (
+        <ImagePickerDialog
+          onDismiss={() => setShowPicker(false)}
+          onImage={handleImage}
+        />
+      )}
     </>
   );
 };
