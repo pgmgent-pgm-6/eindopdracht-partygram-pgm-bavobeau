@@ -8,7 +8,7 @@ const LogScreen = () => {
   return (
     <>
       <DefaultView style={styles.container} >
-      <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} />
+      <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => {}} style={styles.header} />
       <StoriesList />
       <Text style={styles.title}>Home</Text>
       </DefaultView>
@@ -19,6 +19,9 @@ const LogScreen = () => {
 const styles = StyleSheet.create({
   container: {
     
+  },
+  header: {
+    backgroundColor: "",
   },
   title: {
     fontSize: 20,

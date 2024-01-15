@@ -58,7 +58,7 @@ const StoriesList = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginVertical: Variables.sizes.medium,
+    marginVertical: Variables.sizes.small,
     marginHorizontal: Variables.sizes.small,
   },
 });
