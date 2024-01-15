@@ -1,29 +1,32 @@
 import StoryButton from "./StoryButton";
 import Story from "./Story";
-import { useQuery } from "@tanstack/react-query";
 import { getLastStoriesFromLastDay } from "@core/modules/stories/api";
 import { FlatList } from "react-native-gesture-handler";
 import { StyleSheet, View, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { Variables } from "@style";
+import { StoriesOwners } from "@core/modules/stories/types";
 
 const StoriesList = () => {
   const router = useRouter();
+  const [stories, setStories] = useState<StoriesOwners>([]);
   const [storiesToShow, setStoriesToShow] = useState(10);
-  const { data, isLoading, error } = useQuery({
-    queryFn: getLastStoriesFromLastDay,
-    queryKey: ["stories"],
-  });
 
-  if (isLoading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error.message}</Text>;
+  useEffect(() => {
+    // get stories and refresh every 10 seconds
+    const interval = setInterval(() => {
+      getLastStoriesFromLastDay().then((stories) => setStories(stories));
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+  
 
   const handleCreateStory = () => {
     router.push("/stories/create");
   }
 
-  if (!data) return (
+  if (stories.length == 0) return (
     <View style={styles.container}>
       <StoryButton title="Add Story" icon="plus" onPress={handleCreateStory} />
       <Text>No stories found</Text>
@@ -34,7 +37,7 @@ const StoriesList = () => {
     setStoriesToShow((prevCount) => prevCount + 10);
   };
 
-  const visibleStories = data.slice(0, storiesToShow);
+  const visibleStories = stories.slice(0, storiesToShow);
 
   return (
     <View style={styles.container}>
@@ -42,10 +45,10 @@ const StoriesList = () => {
       <FlatList
         data={visibleStories}
         renderItem={({ item }) => <Story user_id={item.owner_id} story_id={item.id} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         horizontal={true}
       />
-      {data.length > storiesToShow && (
+      {stories.length > storiesToShow && (
       <StoryButton title="Add Story" icon="dot" onPress={showNextStories} />
       )}
     </View>
