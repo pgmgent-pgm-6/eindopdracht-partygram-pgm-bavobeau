@@ -12,6 +12,7 @@ const getSchema = (options: Options) => {
   return yup.object().shape({
     email: yup.string().email().required().matches(/(@arteveldehs.be|@student.arteveldehs.be)/, 'Domain not allowed only @arteveldehs.be or @student.arteveldehs.be'),
     ...(options.showPassword ? { password: yup.string().min(8).required() } : {}),
+    username: yup.string().required(),
     first_name: yup.string().required(),
     last_name: yup.string().required(),
     condition: yup.boolean().required(),
