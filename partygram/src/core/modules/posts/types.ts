@@ -1,10 +1,11 @@
 export type Post = {
-  id: string;
+  id: number;
   description: string;
-  createdAt: string;
+  created_at: Date;
   owner_id: string;
   image: string;
   location: string;
+  total_likes: number;
 };
 
 export type Posts = Post[];
