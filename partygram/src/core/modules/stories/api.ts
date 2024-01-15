@@ -1,23 +1,32 @@
 import { supabase } from "@core/api/supabase";
 import { Story, Stories } from "./types";
 
-export const getStories = async (): Promise<Stories | null> => {
-  const { data } = await supabase
+export const getStories = async (): Promise<Stories> => {
+  const response = await supabase
     .from("stories")
     .select("*")
     .order("created_at", { ascending: false })
     .throwOnError()
     .limit(10);
-  return Promise.resolve(data);
+
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
 };
 
-export const getStoryById = async (uid: string | number) => {
+export const getStoryById = async (uid: string): Promise<Story> => {
   const response = await supabase
     .from("stories")
     .select("*")
     .eq("id", uid)
     .throwOnError()
     .single();
+
+  if (response.error) {
+    throw response.error;
+  }
 
   return Promise.resolve(response.data);
 };
@@ -46,12 +55,17 @@ export const getLastStoriesFromLastDay = async () => {
   return Promise.resolve(latestStories);
 };
 
-export const createStory = async (story: Story) => {
+export const createStory = async (story: Story): Promise<Story> => {
   const response = await supabase
     .from("stories")
     .insert(story)
     .throwOnError()
     .single();
+
+  if (response.error) {
+    throw response.error;
+  }
+
   return Promise.resolve(response.data);
 };
 
@@ -62,5 +76,21 @@ export const deleteStory = async (id: string | number) => {
     .eq("id", id)
     .throwOnError()
     .single();
+  return Promise.resolve(response.data);
+};
+
+export const getStoriesByUser = async (
+  id: string | number
+): Promise<Stories> => {
+  const response = await supabase
+    .from("stories")
+    .select("*")
+    .eq("owner_id", id)
+    .throwOnError();
+
+  if (response.error) {
+    throw response.error;
+  }
+
   return Promise.resolve(response.data);
 };

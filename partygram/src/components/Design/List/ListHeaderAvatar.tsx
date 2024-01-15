@@ -1,16 +1,17 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Variables } from "@style";
-import Text from "../Text/Text";
 import Title from "../Text/Title";
+import Text from "@design/Text/Text";
 
 type Props = {
   title: string;
-  description?: string;
   avatar: React.ReactNode;
+  posts?: number;
+  stories?: number;
   onPress: () => void;
 };
 
-const ListHeaderAvatar = ({ title, avatar, description, onPress }: Props) => {
+const ListHeaderAvatar = ({ title, avatar, posts, stories, onPress }: Props) => {
   return (
     <Pressable
       style={styles.pressable}
@@ -20,8 +21,13 @@ const ListHeaderAvatar = ({ title, avatar, description, onPress }: Props) => {
       <View style={styles.container}>
         {avatar}
         <View style={styles.containerText}>
+          <View>
+            <Text>{posts && posts > 0 ? String(posts) : "0"}</Text>
+            <Text>posts</Text>
+            <Text>{stories && stories > 0 ? String(stories) : "0"}</Text>
+            <Text>stories</Text>
+          </View>
           <Title>{title}</Title>
-          <Text>{description}</Text>
         </View>
       </View>
     </Pressable>
