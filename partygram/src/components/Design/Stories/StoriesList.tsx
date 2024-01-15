@@ -17,7 +17,7 @@ const StoriesList = () => {
     // get stories and refresh every 10 seconds
     const interval = setInterval(() => {
       getLastStoriesFromLastDay().then((stories) => setStories(stories));
-    }, 10000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
   

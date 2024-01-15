@@ -9,12 +9,18 @@ type Props = {
   icon: string;
   iconTitle: string;
   iconOnPress: () => void;
+  iconMiddle?: string;
+  iconMiddleTitle?: string;
+  iconMiddleOnPress?: () => void;
 }
 
-const Header = ({ title, style, icon, iconTitle, iconOnPress }: Props) => {
+const Header = ({ title, style, icon, iconTitle, iconOnPress, iconMiddle, iconMiddleTitle, iconMiddleOnPress }: Props) => {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.title}>{title}</Text>
+      {iconMiddle && iconMiddleTitle &&
+        <IconButton title={iconMiddleTitle} icon={iconMiddle} onPress={iconMiddleOnPress} />
+      }
       <IconButton title={iconTitle} icon={icon} onPress={iconOnPress} />
     </View>
   )
