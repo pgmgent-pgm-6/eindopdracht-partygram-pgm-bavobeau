@@ -1,6 +1,7 @@
-import { View } from 'react-native';
-import PostUser from './PostUser';
+import { View, StyleSheet } from 'react-native';
+import Username from './Username';
 import Text from '@design/Text/Text';
+import { Variables } from '@style';
 
 type Props = {
   owner_id: string;
@@ -10,11 +11,19 @@ type Props = {
 
 const PostTitle = ({owner_id, username, description}: Props) => {
   return (
-    <View>
-      <PostUser owner_id={owner_id} username={username} />
+    <View style={styles.container}>
+      <Username owner_id={owner_id} username={username} />
       <Text>{!description ? "" : description}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    flex: 1,
+    gap: Variables.sizes.xs,
+  }
+})
 
 export default PostTitle;

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewPadding: {
-    paddingVertical: Variables.sizes.xl,
+    paddingTop: Variables.sizes.xl, 
   },
 });
 

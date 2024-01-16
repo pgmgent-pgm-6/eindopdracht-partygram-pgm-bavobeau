@@ -1,15 +1,16 @@
 import Text from "@design/Text/Text";
+import { useRouter } from "expo-router";
 import { Pressable, StyleSheet } from "react-native"
 
 type Props = {
   owner_id: string;
   username: string;
-  onPress?: () => void;
 };
 
-const PostUser = ({owner_id, username, onPress}: Props) => {
+const Username = ({owner_id, username}: Props) => {
+  const router = useRouter();
   return (
-    <Pressable>
+    <Pressable onPress={() => router.push(`/profile/${owner_id}`)}>
       <Text style={styles.username}>{username}</Text>
     </Pressable>
   );
@@ -21,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostUser
+export default Username;

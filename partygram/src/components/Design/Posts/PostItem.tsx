@@ -50,7 +50,7 @@ const PostItem = ({ post }: Props) => {
       )}
       </View>
       <View style={styles.infoContainer}>
-        <PostButtons />
+        <PostButtons id={post.id} />
         <View style={styles.dataContainer}>
           {!post.total_likes ? (
             <Text style={styles.textLikes}>0 likes</Text>
