@@ -31,13 +31,10 @@ const userEditableAvatar = ({ imageStyle }: Props) => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (user) {
-        getProfileById(user.id).then((profile) => setProfile(profile));
-      }
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [user]);
+    if (user) {
+      getProfileById(user.id).then((profile) => setProfile(profile));
+    }
+  }, [showPicker, user]);
 
   useEffect(() => {
     if (isError) {

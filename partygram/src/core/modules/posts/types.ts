@@ -11,8 +11,10 @@ export type Post = {
 export type Posts = Post[];
 
 export type CreatePostBody = {
+  owner_id: string;
   description: string;
   location: string;
+  image: string;
 };
 
 export type UpdatePostBody = {

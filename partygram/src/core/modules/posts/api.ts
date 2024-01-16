@@ -1,6 +1,5 @@
 import { supabase } from "@core/api/supabase";
 import { CreatePostBody, Post, Posts } from "./types";
-import { useAuthContext } from "@shared/Auth/AuthProvider";
 
 export const getPosts = async (): Promise<Posts> => {
   const response = await supabase
@@ -17,14 +16,12 @@ export const getPosts = async (): Promise<Posts> => {
 };
 
 export const createPost = async (post: CreatePostBody): Promise<Post> => {
-  const { user } = useAuthContext();
-  console.log(user!.id);
   const response = await supabase
     .from("posts")
     .insert({
       description: post.description,
       location: post.location,
-      owner_id: user!.id,
+      owner_id: post.owner_id,
     })
     .single()
     .throwOnError();
