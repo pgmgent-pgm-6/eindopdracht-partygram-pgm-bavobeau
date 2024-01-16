@@ -9,3 +9,13 @@ export type Post = {
 };
 
 export type Posts = Post[];
+
+export type CreatePostBody = {
+  description: string;
+  location: string;
+};
+
+export type UpdatePostBody = {
+  id: number;
+  image: string;
+}

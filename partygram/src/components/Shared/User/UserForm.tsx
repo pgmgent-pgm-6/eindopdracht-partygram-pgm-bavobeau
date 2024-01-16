@@ -10,8 +10,17 @@ import AppSwitch from "../Formik/AppSwitch";
 
 const getSchema = (options: Options) => {
   return yup.object().shape({
-    email: yup.string().email().required().matches(/(@arteveldehs.be|@student.arteveldehs.be)/, 'Domain not allowed only @arteveldehs.be or @student.arteveldehs.be'),
-    ...(options.showPassword ? { password: yup.string().min(8).required() } : {}),
+    email: yup
+      .string()
+      .email()
+      .required()
+      .matches(
+        /(@arteveldehs.be|@student.arteveldehs.be)/,
+        "Domain not allowed only @arteveldehs.be or @student.arteveldehs.be"
+      ),
+    ...(options.showPassword
+      ? { password: yup.string().min(8).required() }
+      : {}),
     username: yup.string().required(),
     first_name: yup.string().required(),
     last_name: yup.string().required(),
@@ -69,12 +78,25 @@ const UserForm = <T extends CreateUserBody | UpdateUserBody>({
           disabled={isPending}
         />
         {formOptions.showPassword && (
-          <AppTextField name="password" label="Password" secureTextEntry={true} disabled={isPending} />
-          )}
+          <AppTextField
+            name="password"
+            label="Password"
+            secureTextEntry={true}
+            disabled={isPending}
+          />
+        )}
         <AppTextField name="username" label="Username" disabled={isPending} />
-        <AppTextField name="first_name" label="First name" disabled={isPending} />
+        <AppTextField
+          name="first_name"
+          label="First name"
+          disabled={isPending}
+        />
         <AppTextField name="last_name" label="Last name" disabled={isPending} />
-        <AppSwitch name="condition" label="Do you agree with our conditions?" disabled={isPending} />
+        <AppSwitch
+          name="condition"
+          label="Do you agree with our conditions?"
+          disabled={isPending}
+        />
         <AppSubmitButton disabled={isPending}>{label}</AppSubmitButton>
       </View>
     </AppForm>
