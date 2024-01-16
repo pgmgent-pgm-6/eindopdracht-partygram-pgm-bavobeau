@@ -1,4 +1,5 @@
 import Text from "@design/Text/Text";
+import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 
 type Props = {
@@ -6,8 +7,9 @@ type Props = {
 }
 
 const PostComments = ({id}: Props) => {
+  const router = useRouter();
   return (
-    <Pressable>
+    <Pressable onPress={() => router.push(`/comments/${id}`)}>
       <Text>comments</Text>
     </Pressable>
   );

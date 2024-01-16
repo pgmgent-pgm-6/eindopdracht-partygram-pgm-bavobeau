@@ -51,7 +51,7 @@ const PostButtons = ({id}: Props) => {
         <IconButton icon={isLiked ?  "heart" : "heart-outline"} color={isLiked ? "red" : "black"} title="like button" onPress={handleLike} />
         <IconButton icon="comment-outline" title="comment button" onPress={() => {}} />
       </View>
-      <IconButton icon={isFavorite ? "bookmark" : "bookmark-outline"} color={isFavorite ? "yellow" : ""} title="bookmark button" onPress={() => {}} />
+      <IconButton icon={isFavorite ? "bookmark" : "bookmark-outline"} color={isFavorite ? "yellow" : "black"} title="bookmark button" onPress={() => {}} />
     </View>
   );
 };
