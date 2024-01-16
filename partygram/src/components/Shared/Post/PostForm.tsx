@@ -41,7 +41,6 @@ const PostForm = <T extends CreatePostBody>({
   });
 
   const handleImage = async (image: string) => {
-    // hide picker
     setShowPicker(false);
     if (!isVoid(image)) {
       setImage(image);

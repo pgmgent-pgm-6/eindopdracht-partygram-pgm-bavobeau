@@ -22,6 +22,7 @@ export const createPost = async (post: CreatePostBody): Promise<Post> => {
       description: post.description,
       location: post.location,
       owner_id: post.owner_id,
+      image: post.image,
     })
     .single()
     .throwOnError();
