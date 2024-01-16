@@ -1,7 +1,11 @@
 import Text from "@design/Text/Text";
 import { Pressable } from "react-native";
 
-const PostComments = () => {
+type Props = {
+  id: number;
+}
+
+const PostComments = ({id}: Props) => {
   return (
     <Pressable>
       <Text>comments</Text>

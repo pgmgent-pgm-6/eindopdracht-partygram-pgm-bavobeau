@@ -42,10 +42,10 @@ const ProfilePage = () => {
         title={`${profile.username}`}
         icon="cog"
         iconTitle="settings"
-        iconOnPress={() => router.push("/profile/settings")}
+        iconOnPress={() => router.push("/profiles/settings")}
       />
       <UserHeader
-        onPress={() => router.push("/profile/edit")}
+        onPress={() => router.push("/profiles/edit")}
         imageStyle={styles.userHeader}
         profile={profile}
         totalPosts={posts.length}

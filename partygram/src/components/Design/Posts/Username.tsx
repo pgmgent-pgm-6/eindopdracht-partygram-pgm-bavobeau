@@ -10,7 +10,7 @@ type Props = {
 const Username = ({owner_id, username}: Props) => {
   const router = useRouter();
   return (
-    <Pressable onPress={() => router.push(`/profile/${owner_id}`)}>
+    <Pressable onPress={() => router.push(`/profiles/${owner_id}`)}>
       <Text style={styles.username}>{username}</Text>
     </Pressable>
   );

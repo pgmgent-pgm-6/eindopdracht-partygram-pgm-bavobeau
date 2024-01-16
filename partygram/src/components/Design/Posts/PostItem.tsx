@@ -62,7 +62,7 @@ const PostItem = ({ post }: Props) => {
           </Text>
         </View>
         <PostTitle owner_id={post.owner_id} username={profile!.username} description={post.description} />
-        <PostComments />
+        <PostComments id={post.id} />
       </View>
     </View>
   )
