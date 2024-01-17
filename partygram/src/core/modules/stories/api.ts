@@ -1,5 +1,5 @@
 import { supabase } from "@core/api/supabase";
-import { Story, Stories } from "./types";
+import { Story, Stories, CreateStoryBody } from "./types";
 
 export const getStories = async (): Promise<Stories> => {
   const response = await supabase
@@ -55,7 +55,7 @@ export const getLastStoriesFromLastDay = async () => {
   return Promise.resolve(latestStories);
 };
 
-export const createStory = async (story: Story): Promise<Story> => {
+export const createStory = async (story: CreateStoryBody): Promise<Story> => {
   const response = await supabase
     .from("stories")
     .insert(story)

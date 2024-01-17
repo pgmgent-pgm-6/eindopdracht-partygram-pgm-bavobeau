@@ -18,12 +18,7 @@ export const getPosts = async (): Promise<Posts> => {
 export const createPost = async (post: CreatePostBody): Promise<Post> => {
   const response = await supabase
     .from("posts")
-    .insert({
-      description: post.description,
-      location: post.location,
-      owner_id: post.owner_id,
-      image: post.image,
-    })
+    .insert(post)
     .single()
     .throwOnError();
 

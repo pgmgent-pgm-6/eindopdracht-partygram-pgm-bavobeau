@@ -1,27 +1,24 @@
 import * as yup from "yup";
-import { CreatePostBody } from "@core/modules/posts/types";
-import ErrorMessage from "@design/Text/ErrorMessage";
-import AppForm from "@shared/Formik/AppForm";
-import { useMutation } from "@tanstack/react-query";
-import { View, StyleSheet } from "react-native";
-import AppTextField from "@shared/Formik/AppTextField";
-import AppSubmitButton from "@shared/Formik/AppSubmitButton";
-import isVoid from "@core/utils/isVoid";
 import { useState } from "react";
-import ImagePickerDialog from "@design/ImagePicker/ImagePickerDialog";
+import { useMutation } from "@tanstack/react-query";
+import isVoid from "@core/utils/isVoid";
 import { getCurrentSession } from "@core/modules/auth/api";
 import { uploadImage } from "@core/modules/files/api";
 import { Bucket } from "@core/modules/files/constants";
-import PostImage from "@design/Posts/PostImage";
-import { Variables } from "@style";
-import Button from "@design/Button/Button";
+import AppForm from "@shared/Formik/AppForm";
 import DefaultView from "@design/View/DefaultView";
+import ErrorMessage from "@design/Text/ErrorMessage";
+import Button from "@design/Button/Button";
+import ImagePickerDialog from "@design/ImagePicker/ImagePickerDialog";
+import PostImage from "@design/Posts/PostImage";
+import { View, StyleSheet } from "react-native";
+import AppSubmitButton from "@shared/Formik/AppSubmitButton";
+import { Variables } from "@style";
+import { CreateStoryBody } from "@core/modules/stories/types";
 
 const getSchema = () => {
   return yup.object().shape({
-    description: yup.string().required(),
     image: yup.string(),
-    location: yup.string(),
   });
 };
 
@@ -32,7 +29,7 @@ type Props<T> = {
   label: string;
 };
 
-const PostForm = <T extends CreatePostBody>({
+const StoryForm = <T extends CreateStoryBody>({
   initialValues,
   updateMethod,
   onSucces,
@@ -50,13 +47,13 @@ const PostForm = <T extends CreatePostBody>({
     if (!isVoid(image)) {
       setImage(image);
     }
-  }
+  };
 
   const handleSubmit = async (values: T) => {
     if (image) {
       const session = await getCurrentSession();
       const fileName = `${session?.user.id}/${Date.now()}.jpg`;
-      await uploadImage(Bucket.Posts, fileName, image);
+      await uploadImage(Bucket.Stories, fileName, image);
       values.image = fileName;
       mutate(values);
     }
@@ -64,19 +61,19 @@ const PostForm = <T extends CreatePostBody>({
 
   return (
     <AppForm
-      initialValues={{ ...initialValues }}
       validationSchema={getSchema()}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       <DefaultView vertical={false} horizontal={true} style={styles.container}>
         {isError && <ErrorMessage error={error} />}
-        <Button onPress={() => setShowPicker(true)} disabled={isPending} >
+        <Button onPress={() => setShowPicker(true)} disabled={isPending}>
           {image ? "Change image" : "Add image"}
         </Button>
         {showPicker && (
           <ImagePickerDialog
-            onDismiss={() => setShowPicker(false)}
             onImage={handleImage}
+            onDismiss={() => setShowPicker(false)}
           />
         )}
         {image && (
@@ -84,13 +81,9 @@ const PostForm = <T extends CreatePostBody>({
             <PostImage source={{ uri: `data:image/jpeg;base64,${image}` }} />
           </View>
         )}
-        <AppTextField
-          name="description"
-          label="Description"
-          placeholder="Description"
-          disabled={isPending}
-        />
-        <AppSubmitButton disabled={isPending || !image}>{isPending ? 'Creating...' : label}</AppSubmitButton>
+        <AppSubmitButton disabled={isPending || !image}>
+          {isPending ? "Loading..." : label}
+        </AppSubmitButton>
       </DefaultView>
     </AppForm>
   );
@@ -107,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostForm;
+export default StoryForm;
