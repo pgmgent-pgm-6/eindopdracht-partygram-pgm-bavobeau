@@ -33,7 +33,7 @@ const DataListView = <T extends { id: number }>({ name, method, emptyTitle, empt
         }
 
         return (
-          <DefaultView padding={false}>
+          <DefaultView vertical={false}>
             <FlatList
               data={data}
               keyExtractor={(item) => String(item.id)}
