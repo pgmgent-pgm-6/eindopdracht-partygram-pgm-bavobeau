@@ -15,6 +15,21 @@ export const getPosts = async (): Promise<Posts> => {
   return Promise.resolve(response.data);
 };
 
+export const getPostById = async (id: number): Promise<Post> => {
+  const response = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .throwOnError()
+    .single();
+
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
+}
+
 export const createPost = async (post: CreatePostBody): Promise<Post> => {
   const response = await supabase
     .from("posts")

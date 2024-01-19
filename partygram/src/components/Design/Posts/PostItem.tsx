@@ -1,5 +1,5 @@
 import { Post } from "@core/modules/posts/types"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, StyleProp } from "react-native"
 import PostTitle from "./PostTitle"
 import { Profile } from "@core/modules/profiles/types"
 import { useEffect, useState } from "react"
@@ -10,12 +10,14 @@ import Text from "@design/Text/Text"
 import { Variables } from "@style"
 import PostButtons from "./PostButtons"
 import PostComments from "./PostComments"
+import LoadingIndicator from "@design/LoadingIndicator"
 
 type Props = {
   post: Post;
+  style?: StyleProp<Object>;
 }
 
-const PostItem = ({ post }: Props) => {
+const PostItem = ({ post, style }: Props) => {
   const [profile, setProfile] = useState<Profile>();
   const imageUrl = getPostImageUrl(post);
 
@@ -35,13 +37,13 @@ const PostItem = ({ post }: Props) => {
   if (!profile) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <LoadingIndicator />
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.imageContainer}>
       {!imageUrl ? (
         <PostImage source={require("@assets/images/icon.png")} />

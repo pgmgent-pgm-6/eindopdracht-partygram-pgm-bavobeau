@@ -4,6 +4,7 @@ import PostImage from "./PostImage";
 import { getPostImageUrl } from "@core/modules/posts/utils";
 import { useRouter } from "expo-router";
 import LoadingIndicator from "@design/LoadingIndicator";
+import CenteredView from "@design/View/CenteredView";
 
 type Props = {
   post: Post;
@@ -18,7 +19,11 @@ const SmallPost = ({ post }: Props) => {
   }
 
   if (!imageUrl) {
-    return <LoadingIndicator />;
+    return (
+      <CenteredView style={styles.container}>
+        <LoadingIndicator />
+      </CenteredView>
+    )
   }
 
   return (
