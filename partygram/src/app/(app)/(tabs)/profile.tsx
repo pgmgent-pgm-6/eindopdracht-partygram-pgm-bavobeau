@@ -7,13 +7,17 @@ import { Profile } from "@core/modules/profiles/types";
 import { useAuthContext } from "@shared/Auth/AuthProvider";
 import { getProfileById } from "@core/modules/profiles/api";
 import { getPostsByUser } from "@core/modules/posts/api";
-import { Posts } from "@core/modules/posts/types";
+import { Post, Posts } from "@core/modules/posts/types";
 import { Stories } from "@core/modules/stories/types";
 import { getStoriesByUserId } from "@core/modules/stories/api";
 import { Variables } from "@style";
 import LoadingIndicator from "@design/LoadingIndicator";
 import { useQuery } from "@tanstack/react-query";
 import ErrorMessage from "@design/Text/ErrorMessage";
+import DataListView from "@shared/Data/DataListView";
+import PostImage from "@design/Posts/PostImage";
+import { getPostImageUrl } from "@core/modules/posts/utils";
+import SmallPost from "@design/Posts/SmallPost";
 
 const ProfilePage = () => {
   const { user } = useAuthContext();
@@ -23,15 +27,27 @@ const ProfilePage = () => {
     return <LoadingIndicator />;
   }
 
-  const { data: profile, isLoading, isError } = useQuery({
+  const {
+    data: profile,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["profile", user.id],
     queryFn: () => getProfileById(user.id),
   });
-  const { data: posts, isLoading: postsIsLoading, isError: postsIsError } = useQuery({
+  const {
+    data: posts,
+    isLoading: postsIsLoading,
+    isError: postsIsError,
+  } = useQuery({
     queryKey: ["posts", user.id],
     queryFn: () => getPostsByUser(user.id),
   });
-  const { data: stories, isLoading: storiesIsLoading, isError: storiesIsError } = useQuery({
+  const {
+    data: stories,
+    isLoading: storiesIsLoading,
+    isError: storiesIsError,
+  } = useQuery({
     queryKey: ["stories", user.id],
     queryFn: () => getStoriesByUserId(user.id),
   });
@@ -70,6 +86,16 @@ const ProfilePage = () => {
         profile={profile}
         totalPosts={posts.length}
         totalStories={stories.length}
+      />
+      <DataListView
+        name={["posts", user.id]}
+        method={() => getPostsByUser(user.id)}
+        emptyTitle="No posts"
+        emptyIcon="image"
+        emptyDescription="You have not posted anything yet"
+        onAddItem={() => router.push("/posts/create")}
+        numColumns={3}
+        renderItem={({ item }: { item: Post }) => <SmallPost post={item} />}
       />
     </DefaultView>
   );
