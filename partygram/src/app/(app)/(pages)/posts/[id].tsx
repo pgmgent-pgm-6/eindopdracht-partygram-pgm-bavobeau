@@ -3,6 +3,7 @@ import { getPostById } from "@core/modules/posts/api";
 import LoadingIndicator from "@design/LoadingIndicator";
 import PostItem from "@design/Posts/PostItem";
 import ErrorMessage from "@design/Text/ErrorMessage";
+import CenteredView from "@design/View/CenteredView";
 import DefaultView from "@design/View/DefaultView";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
@@ -18,15 +19,27 @@ const PostDetailPage = () => {
   useTitle(post ? post.description : null);
 
   if (isLoading) {
-    return <LoadingIndicator />;
+    return (
+      <CenteredView>
+        <LoadingIndicator />
+      </CenteredView>
+    )
   }
 
   if (isError) {
-    return <ErrorMessage error="Something went wrong" />;
+    return (
+      <CenteredView>
+        <ErrorMessage error="Something went wrong" />
+      </CenteredView>
+    )
   }
 
   if (!post) {
-    return <ErrorMessage error="Does not exist" />;
+    return (
+      <CenteredView>
+        <ErrorMessage error="Does not exist" />
+      </CenteredView>
+    )
   }
 
   return (
