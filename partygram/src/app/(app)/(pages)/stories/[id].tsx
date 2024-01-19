@@ -39,14 +39,8 @@ const StoryDetailPage = () => {
     }
   }, [user, stories]);
 
-  if (!stories || stories.length === 0) return <Text>No stories found</Text>;
-
-  if (isLoading || storyIsLoading) return <LoadingIndicator />;
-
-  if (isError || storyIsError) return <Text>Something went wrong</Text>;
-  
   const handleLeftPress = () => {
-    if (activeStory) {
+    if (activeStory && stories) {
       const index = stories.indexOf(activeStory);
       if (index > 0) {
         setActiveStory(stories[index - 1]);
@@ -55,7 +49,7 @@ const StoryDetailPage = () => {
   };
 
   const handleRightPress = () => {
-    if (activeStory) {
+    if (activeStory && stories) {
       const index = stories.indexOf(activeStory);
       if (index < stories.length - 1) {
         setActiveStory(stories[index + 1]);
@@ -75,6 +69,12 @@ const StoryDetailPage = () => {
       clearInterval(intervalId);
     };
   }, [handleRightPress, handleLeftPress]); 
+
+  if (isLoading || storyIsLoading) return <LoadingIndicator />;
+
+  if (isError || storyIsError) return <Text>Something went wrong</Text>;
+
+  if (!stories || stories.length === 0) return <Text>No stories found</Text>;
 
   return (
     <DefaultView vertical={false}>
