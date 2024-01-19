@@ -3,10 +3,11 @@ import { getAvatarUrl } from '@core/modules/profiles/utils';
 import { Variables } from '@style';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet } from 'react-native';
-import { useEffect, useState } from 'react';
 import ImageAvatar from '@design/Avatar/ImageAvatar';
 import TextAvatar from '@design/Avatar/TextAvatar';
-import { Profile } from '@core/modules/profiles/types';
+import { useQuery } from '@tanstack/react-query';
+import Text from '@design/Text/Text';
+import ErrorMessage from '@design/Text/ErrorMessage';
 
 type Props = {
   user_id: string;
@@ -14,14 +15,10 @@ type Props = {
 
 const Story = ({ user_id }: Props) => {
   const router = useRouter();
-  const [profile, setProfile] = useState<Profile>();
-
-  // get profile and avatar from user_id
-  useEffect(() => {
-    if (user_id) {
-      getProfileById(user_id).then((profile) => setProfile(profile));
-    }
-  }, [user_id]);
+  const { data: profile, isLoading, isError } = useQuery({
+    queryKey: ['profile', user_id],
+    queryFn: () => getProfileById(user_id),
+  });
 
   const avatarUrl = getAvatarUrl(profile);
 
@@ -29,8 +26,16 @@ const Story = ({ user_id }: Props) => {
     router.push(`/stories/${user_id}`);
   }
 
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (isError) {
+    return <ErrorMessage error="Something went wrong" />;
+  }
+
   if (!profile) {
-    return;
+    return <Text>No profile found</Text>;
   }
 
   return (

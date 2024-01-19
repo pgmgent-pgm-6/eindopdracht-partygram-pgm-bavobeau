@@ -31,17 +31,23 @@ export const getStoryById = async (uid: string): Promise<Story> => {
   return Promise.resolve(response.data);
 };
 
-export const getOwnerIdFromStoryToday = async () => {
+export const getOwnerIdFromStoryToday = async (): Promise<Stories> => {
   const response = await supabase
     .from("stories")
-    .select("owner_id")
+    .select("owner_id, id")
     .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
     .throwOnError();
 
   if (response.error) {
     throw response.error;
   }
-  const uniqueOwnerIds = Array.from(new Set(response.data.map(item => item.owner_id)));
+
+  const uniqueOwnerIds = response.data.reduce((acc: any, cur: any) => {
+    if (!acc.some((item: any) => item.owner_id === cur.owner_id)) {
+      acc.push({ owner_id: cur.owner_id, id: cur.id });
+    }
+    return acc;
+  }, []);
   
   return Promise.resolve(uniqueOwnerIds);
 };

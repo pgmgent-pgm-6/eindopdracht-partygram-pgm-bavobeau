@@ -14,9 +14,10 @@ type Props<T> = {
   onAddItem: () => void;
   renderItem: ListRenderItem<T>;
   numColumns?: number;
+  horizontal?: boolean;
 }
 
-const DataListView = <T extends { id: number }>({ name, method, emptyTitle, emptyIcon, emptyDescription, onAddItem, renderItem, numColumns = 1 }: Props<T>) => {
+const DataListView = <T extends { id: number }>({ name, method, emptyTitle, emptyIcon, emptyDescription, onAddItem, renderItem, numColumns = 1, horizontal = false }: Props<T>) => {
   return (
     <DataView 
       method={method} 
@@ -40,6 +41,7 @@ const DataListView = <T extends { id: number }>({ name, method, emptyTitle, empt
               keyExtractor={(item) => String(item.id)}
               renderItem={renderItem}
               numColumns={numColumns}
+              horizontal={horizontal}
             />
           </DefaultView>
         )

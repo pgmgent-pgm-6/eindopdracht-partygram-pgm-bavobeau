@@ -3,6 +3,7 @@ import { Pressable, StyleSheet } from "react-native";
 import PostImage from "./PostImage";
 import { getPostImageUrl } from "@core/modules/posts/utils";
 import { useRouter } from "expo-router";
+import LoadingIndicator from "@design/LoadingIndicator";
 
 type Props = {
   post: Post;
@@ -10,9 +11,14 @@ type Props = {
 
 const SmallPost = ({ post }: Props) => {
   const router = useRouter();
+  const imageUrl = getPostImageUrl(post);
 
   if (!post) {
     return null;
+  }
+
+  if (!imageUrl) {
+    return <LoadingIndicator />;
   }
 
   return (
@@ -22,7 +28,7 @@ const SmallPost = ({ post }: Props) => {
         router.push(`/posts/${post.id}`);
       }}
     >
-      <PostImage source={{ uri: getPostImageUrl(post) }} />
+      <PostImage source={{ uri: imageUrl }} />
     </Pressable>
   );
 };
