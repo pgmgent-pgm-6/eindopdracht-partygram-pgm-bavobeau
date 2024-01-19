@@ -11,7 +11,7 @@ const RegisterScreen = () => {
 
   return (
     <>
-      <DefaultView>
+      <DefaultView vertical={false} horizontal={true}>
         <UserForm
           updateMethod={createUser}
           onSuccess={() => router.push("/(app)/(tabs)")}

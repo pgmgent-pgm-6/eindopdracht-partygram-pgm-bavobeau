@@ -2,7 +2,7 @@ import { getProfileById } from '@core/modules/profiles/api';
 import { getAvatarUrl } from '@core/modules/profiles/utils';
 import { Variables } from '@style';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import ImageAvatar from '@design/Avatar/ImageAvatar';
 import TextAvatar from '@design/Avatar/TextAvatar';
@@ -27,7 +27,7 @@ const Story = ({ user_id, story_id }: Props) => {
   const avatarUrl = getAvatarUrl(profile);
 
   const handleShowStory = () => {
-    router.push(`/stories/${story_id}`);
+    router.push(`/stories/${user_id}`);
   }
 
   if (!profile) {

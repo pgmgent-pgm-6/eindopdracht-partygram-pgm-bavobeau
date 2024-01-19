@@ -79,9 +79,24 @@ export const deleteStory = async (id: string | number) => {
   return Promise.resolve(response.data);
 };
 
-export const getStoriesByUser = async (
-  id: string | number
+export const getStoriesByUserIdFromToday = async (
+  id: string
 ): Promise<Stories> => {
+  const response = await supabase
+    .from("stories")
+    .select("*")
+    .eq("owner_id", id)
+    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000))
+    .throwOnError();
+
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
+};
+
+export const getStoriesByUserId = async (id: string): Promise<Stories> => {
   const response = await supabase
     .from("stories")
     .select("*")
@@ -93,4 +108,4 @@ export const getStoriesByUser = async (
   }
 
   return Promise.resolve(response.data);
-};
+}

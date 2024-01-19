@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { getPostsByUser } from "@core/modules/posts/api";
 import { Posts } from "@core/modules/posts/types";
 import { Stories } from "@core/modules/stories/types";
-import { getStoriesByUser } from "@core/modules/stories/api";
+import { getStoriesByUserId } from "@core/modules/stories/api";
 import { Variables } from "@style";
 
 const ProfilePage = () => {
@@ -26,7 +26,7 @@ const ProfilePage = () => {
       if (user) {
         getProfileById(user.id).then((profile) => setProfile(profile));
         getPostsByUser(user.id).then((posts) => setPosts(posts));
-        getStoriesByUser(user.id).then((stories) => setStories(stories));
+        getStoriesByUserId(user.id).then((stories) => setStories(stories));
       }
     }, 10000);
     return () => clearInterval(interval);
