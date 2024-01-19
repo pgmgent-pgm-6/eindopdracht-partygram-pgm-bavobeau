@@ -11,6 +11,7 @@ import { Variables } from "@style"
 import PostButtons from "./PostButtons"
 import PostComments from "./PostComments"
 import LoadingIndicator from "@design/LoadingIndicator"
+import CenteredView from "@design/View/CenteredView"
 
 type Props = {
   post: Post;
@@ -36,9 +37,9 @@ const PostItem = ({ post, style }: Props) => {
 
   if (!profile) {
     return (
-      <View style={styles.container}>
+      <CenteredView style={styles.container}>
         <LoadingIndicator />
-      </View>
+      </CenteredView>
     );
   };
 
