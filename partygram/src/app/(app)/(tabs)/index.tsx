@@ -3,12 +3,11 @@ import Header from "@design/Header/Header";
 import PostItem from "@design/Posts/PostItem";
 import StoriesList from "@design/Stories/StoriesList";
 import DefaultView from "@design/View/DefaultView";
-import SafeView from "@design/View/SafeView";
 import DataListView from "@shared/Data/DataListView";
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 
-const LogScreen = () => {
+const Index = () => {
   const router = useRouter();
 
   return (
@@ -43,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogScreen;
+export default Index;

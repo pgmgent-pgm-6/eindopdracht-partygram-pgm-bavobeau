@@ -9,7 +9,6 @@ export type Story = {
 export type Stories = Story[]
 
 export type StoriesOwners = {
-  id: number;
   owner_id: string;
 } [];
 

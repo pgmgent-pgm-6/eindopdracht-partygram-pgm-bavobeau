@@ -1,54 +1,64 @@
 import StoryButton from "./StoryButton";
 import Story from "./Story";
-import { getLastStoriesFromLastDay } from "@core/modules/stories/api";
 import { FlatList } from "react-native-gesture-handler";
 import { StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { Variables } from "@style";
-import { StoriesOwners } from "@core/modules/stories/types";
+import { getOwnerIdFromStoryToday } from "@core/modules/stories/api";
+import { useQuery } from "@tanstack/react-query";
+import LoadingIndicator from "@design/LoadingIndicator";
 
 const StoriesList = () => {
   const router = useRouter();
-  const [stories, setStories] = useState<StoriesOwners>([]);
   const [storiesToShow, setStoriesToShow] = useState(10);
-
-  useEffect(() => {
-    // get stories and refresh every 10 seconds
-    const interval = setInterval(() => {
-      getLastStoriesFromLastDay().then((stories) => setStories(stories));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const { data: owners, isLoading, isError } = useQuery({
+    queryKey: ["stories"],
+    queryFn: () => getOwnerIdFromStoryToday(),
+    refetchInterval: 2000,
+  });
   
-
   const handleCreateStory = () => {
     router.push("/stories/create");
   }
 
-  if (stories.length == 0) return (
+  if (isLoading) return (
+    <View style={styles.container}>
+      <StoryButton title="Add Story" icon="plus" onPress={handleCreateStory} />
+      <LoadingIndicator />
+    </View>
+  );
+
+  if (isError) return (
+    <View style={styles.container}>
+      <StoryButton title="Add Story" icon="plus" onPress={handleCreateStory} />
+      <Text>Something went wrong</Text>
+    </View>
+  );
+
+  if (!owners) return (
     <View style={styles.container}>
       <StoryButton title="Add Story" icon="plus" onPress={handleCreateStory} />
       <Text>No stories found</Text>
     </View>
-  )
+  );
   
   const showNextStories = () => {
     setStoriesToShow((prevCount) => prevCount + 10);
   };
 
-  const visibleStories = stories.slice(0, storiesToShow);
+  const visibleStories = owners.slice(0, storiesToShow);
 
   return (
     <View style={styles.container}>
       <StoryButton title="Add Story" icon="plus" onPress={handleCreateStory} />
       <FlatList
         data={visibleStories}
-        renderItem={({ item }) => <Story user_id={item.owner_id} story_id={item.id} />}
-        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Story user_id={item} />}
+        keyExtractor={(item) => item}
         horizontal={true}
       />
-      {stories.length > storiesToShow && (
+      {owners.length > storiesToShow && (
       <StoryButton title="Add Story" icon="dot" onPress={showNextStories} />
       )}
     </View>

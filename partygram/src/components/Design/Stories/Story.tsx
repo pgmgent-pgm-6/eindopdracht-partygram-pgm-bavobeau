@@ -10,10 +10,9 @@ import { Profile } from '@core/modules/profiles/types';
 
 type Props = {
   user_id: string;
-  story_id: number;
 };
 
-const Story = ({ user_id, story_id }: Props) => {
+const Story = ({ user_id }: Props) => {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile>();
 

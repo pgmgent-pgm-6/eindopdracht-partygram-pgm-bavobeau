@@ -31,28 +31,19 @@ export const getStoryById = async (uid: string): Promise<Story> => {
   return Promise.resolve(response.data);
 };
 
-export const getLastStoriesFromLastDay = async () => {
+export const getOwnerIdFromStoryToday = async () => {
   const response = await supabase
     .from("stories")
-    .select("owner_id, id")
-    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000))
-    .order("owner_id, created_at", { ascending: false })
+    .select("owner_id")
+    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
     .throwOnError();
 
-  // Extracting the latest story for each owner
-  const latestStories = [];
-  const seenOwners = new Set();
-
-  if (!response.data) return Promise.resolve([]);
-  for (const story of response.data) {
-    if (!seenOwners.has(story.owner_id)) {
-      latestStories.push(story);
-      seenOwners.add(story.owner_id);
-      seenOwners.add(story.id);
-    }
+  if (response.error) {
+    throw response.error;
   }
-
-  return Promise.resolve(latestStories);
+  const uniqueOwnerIds = Array.from(new Set(response.data.map(item => item.owner_id)));
+  
+  return Promise.resolve(uniqueOwnerIds);
 };
 
 export const createStory = async (story: CreateStoryBody): Promise<Story> => {
@@ -86,7 +77,7 @@ export const getStoriesByUserIdFromToday = async (
     .from("stories")
     .select("*")
     .eq("owner_id", id)
-    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000))
+    .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
     .throwOnError();
 
   if (response.error) {
