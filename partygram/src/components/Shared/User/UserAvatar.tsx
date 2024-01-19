@@ -51,7 +51,7 @@ const userEditableAvatar = ({ imageStyle }: Props) => {
   };
 
   if (isPending) {
-    return <LoadingAvatar />;
+    return <LoadingAvatar style={imageStyle} />;
   }
 
   // get full path to avatar
