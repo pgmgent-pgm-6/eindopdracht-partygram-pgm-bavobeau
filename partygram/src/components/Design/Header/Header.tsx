@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: Variables.sizes.horizontalPadding,
-    paddingVertical: Variables.sizes.small,
+    paddingVertical: Variables.sizes.medium,
     backgroundColor: Variables.colors.white,
   },
   title: {

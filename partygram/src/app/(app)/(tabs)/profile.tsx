@@ -12,6 +12,7 @@ import { Posts } from "@core/modules/posts/types";
 import { Stories } from "@core/modules/stories/types";
 import { getStoriesByUserId } from "@core/modules/stories/api";
 import { Variables } from "@style";
+import SafeView from "@design/View/SafeView";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile>();
