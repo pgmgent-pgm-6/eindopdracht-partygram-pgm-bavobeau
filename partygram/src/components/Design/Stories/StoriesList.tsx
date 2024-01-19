@@ -2,7 +2,7 @@ import StoryButton from "./StoryButton";
 import Story from "./Story";
 import { FlatList } from "react-native-gesture-handler";
 import { StyleSheet, View, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "expo-router";
 import { Variables } from "@style";
 import { getOwnerIdFromStoryToday } from "@core/modules/stories/api";

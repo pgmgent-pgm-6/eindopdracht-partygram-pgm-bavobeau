@@ -4,8 +4,6 @@ import ErrorMessage from "@design/Text/ErrorMessage";
 import CenteredView from "@design/View/CenteredView";
 import DefaultView from "@design/View/DefaultView";
 import { QueryKey, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { ref } from "yup";
 
 type Props<T> = {
   name: QueryKey;
@@ -19,7 +17,7 @@ const DataView = <T extends Object>({ name, method, render, getTitle, showTitle 
   const { data, isLoading, isError, error } = useQuery({
     queryFn: method,
     queryKey: name,
-    refetchInterval: 2000,
+    refetchInterval: 1000,
   });
 
   useTitle(showTitle ? (data && getTitle ? getTitle(data) : "") : null);
