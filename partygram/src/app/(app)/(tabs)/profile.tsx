@@ -6,35 +6,54 @@ import DefaultView from "@design/View/DefaultView";
 import { Profile } from "@core/modules/profiles/types";
 import { useAuthContext } from "@shared/Auth/AuthProvider";
 import { getProfileById } from "@core/modules/profiles/api";
-import { useEffect, useState } from "react";
 import { getPostsByUser } from "@core/modules/posts/api";
 import { Posts } from "@core/modules/posts/types";
 import { Stories } from "@core/modules/stories/types";
 import { getStoriesByUserId } from "@core/modules/stories/api";
 import { Variables } from "@style";
-import SafeView from "@design/View/SafeView";
+import LoadingIndicator from "@design/LoadingIndicator";
+import { useQuery } from "@tanstack/react-query";
+import ErrorMessage from "@design/Text/ErrorMessage";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState<Profile>();
-  const [posts, setPosts] = useState<Posts>([]);
-  const [stories, setStories] = useState<Stories>([]);
   const { user } = useAuthContext();
   const router = useRouter();
 
-  useEffect(() => {
-    // get profile, posts and stories and refresh every 10 seconds
-    const interval = setInterval(() => {
-      if (user) {
-        getProfileById(user.id).then((profile) => setProfile(profile));
-        getPostsByUser(user.id).then((posts) => setPosts(posts));
-        getStoriesByUserId(user.id).then((stories) => setStories(stories));
-      }
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [user]);
+  if (!user) {
+    return <LoadingIndicator />;
+  }
 
-  if (!user || !profile) {
-    return null;
+  const { data: profile, isLoading, isError } = useQuery({
+    queryKey: ["profile", user.id],
+    queryFn: () => getProfileById(user.id),
+  });
+  const { data: posts, isLoading: postsIsLoading, isError: postsIsError } = useQuery({
+    queryKey: ["posts", user.id],
+    queryFn: () => getPostsByUser(user.id),
+  });
+  const { data: stories, isLoading: storiesIsLoading, isError: storiesIsError } = useQuery({
+    queryKey: ["stories", user.id],
+    queryFn: () => getStoriesByUserId(user.id),
+  });
+
+  if (isLoading || postsIsLoading || storiesIsLoading) {
+    return <LoadingIndicator />;
+  }
+
+  if (isError || postsIsError || storiesIsError) {
+    return <ErrorMessage error="Something went wrong" />;
+  }
+
+  if (!profile) {
+    return <ErrorMessage error="Profile does not exist" />;
+  }
+
+  if (!posts) {
+    return <ErrorMessage error="Posts do not exist" />;
+  }
+
+  if (!stories) {
+    return <ErrorMessage error="Stories do not exist" />;
   }
 
   return (

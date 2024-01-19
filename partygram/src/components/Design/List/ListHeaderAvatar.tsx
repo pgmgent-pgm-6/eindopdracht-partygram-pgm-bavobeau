@@ -21,11 +21,15 @@ const ListHeaderAvatar = ({ title, avatar, posts, stories, onPress }: Props) => 
       <View style={styles.container}>
         {avatar}
         <View style={styles.containerText}>
-          <View>
-            <Text>{posts && posts > 0 ? String(posts) : "0"}</Text>
-            <Text>posts</Text>
-            <Text>{stories && stories > 0 ? String(stories) : "0"}</Text>
-            <Text>stories</Text>
+          <View style={styles.containerInfo}>
+            <View style={styles.data}>
+              <Text style={styles.text}>{posts && posts > 0 ? String(posts) : "0"}</Text>
+              <Text style={styles.text}>posts</Text>
+            </View>
+            <View style={styles.data}>
+              <Text style={styles.text}>{stories && stories > 0 ? String(stories) : "0"}</Text>
+              <Text style={styles.text}>stories</Text>
+            </View>
           </View>
           <Title>{title}</Title>
         </View>
@@ -45,9 +49,24 @@ const styles = StyleSheet.create({
     paddingVertical: Variables.sizes.medium,
   },
   containerText: {
+    paddingLeft: Variables.sizes.xxl,
     flex: 1,
-    marginStart: Variables.sizes.medium,
   },
+  containerInfo: {
+    gap: Variables.sizes.xxl,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start"
+  },
+  data: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: Variables.sizes.medium,
+    color: Variables.colors.text,
+  }
 });
 
 export default ListHeaderAvatar;
