@@ -2,6 +2,7 @@ import { createLike, deleteLike, getLikeByPostAndOwner } from '@core/modules/lik
 import IconButton from '@design/Button/IconButton';
 import { useAuthContext } from '@shared/Auth/AuthProvider';
 import { Variables } from '@style';
+import { router } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 
@@ -44,12 +45,15 @@ const PostButtons = ({id}: Props) => {
     }
   };
 
+  const handleComment = () => {
+    router.push(`/comments/${id}`);
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.pair}>
         <IconButton icon={isLiked ?  "heart" : "heart-outline"} color={isLiked ? "red" : "black"} title="like button" onPress={handleLike} />
-        <IconButton icon="comment-outline" title="comment button" onPress={() => {}} />
+        <IconButton icon="comment-outline" title="comment button" onPress={handleComment} />
       </View>
       <IconButton icon={isFavorite ? "bookmark" : "bookmark-outline"} color={isFavorite ? "yellow" : "black"} title="bookmark button" onPress={() => {}} />
     </View>

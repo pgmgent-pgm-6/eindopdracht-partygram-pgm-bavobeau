@@ -7,7 +7,8 @@ import DefaultView from "@design/View/DefaultView";
 import { useAuthContext } from "@shared/Auth/AuthProvider";
 import CommentForm from "@shared/Comment/CommentForm";
 import DataListView from "@shared/Data/DataListView";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { StyleSheet } from "react-native";
 
 const CommentsDetailScreen = () => {
   const { user } = useAuthContext();
@@ -29,20 +30,29 @@ const CommentsDetailScreen = () => {
         separator={() => <Divider />}
         renderItem={({ item }) => <CommentItem comment={item} />}
       />
-      <DefaultView vertical={false} horizontal={true}>
-      <CommentForm
-        updateMethod={createComment}
-        onSucces={() => {}}
-        label="Add comment"
-        initialValues={{
-          post_id: parseInt(id),
-          description: "",
-          owner_id: user.id,
-        }}
-      />
+      <DefaultView vertical={false} horizontal={true} style={styles.form}>
+        <CommentForm
+          updateMethod={createComment}
+          onSucces={() => {}}
+          label="Add comment"
+          initialValues={{
+            post_id: parseInt(id),
+            description: "",
+            owner_id: user.id,
+          }}
+        />
       </DefaultView>
     </DefaultView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  form: {
+    flexGrow: 0.3,
+  }
+});
 
 export default CommentsDetailScreen;

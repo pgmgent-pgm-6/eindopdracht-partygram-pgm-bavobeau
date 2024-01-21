@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     gap: Variables.sizes.xs,
   },
   username: {
-    fontWeight: "bold",
+    fontFamily: Variables.fonts.bold,
   },
   avatar : {
     width: Variables.sizes.xl,
