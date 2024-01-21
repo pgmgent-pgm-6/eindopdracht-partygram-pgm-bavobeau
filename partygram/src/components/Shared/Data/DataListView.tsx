@@ -8,16 +8,17 @@ import { FlatList } from "react-native-gesture-handler";
 type Props<T> = {
   name: QueryKey;
   method: () => Promise<T[] | null>;
-  emptyTitle: string;
-  emptyIcon: string;
+  emptyTitle?: string;
+  emptyIcon?: string;
   emptyDescription: string;
-  onAddItem: () => void;
+  onAddItem?: () => void;
   renderItem: ListRenderItem<T>;
+  separator?: () => JSX.Element;
   numColumns?: number;
   horizontal?: boolean;
 }
 
-const DataListView = <T extends { id: number }>({ name, method, emptyTitle, emptyIcon, emptyDescription, onAddItem, renderItem, numColumns = 1, horizontal = false }: Props<T>) => {
+const DataListView = <T extends { id: number }>({ name, method, emptyTitle, emptyIcon, emptyDescription, onAddItem, renderItem, separator, numColumns = 1, horizontal = false }: Props<T>) => {
   return (
     <DataView 
       method={method} 
@@ -40,6 +41,7 @@ const DataListView = <T extends { id: number }>({ name, method, emptyTitle, empt
               data={data}
               keyExtractor={(item) => String(item.id)}
               renderItem={renderItem}
+              ItemSeparatorComponent={separator}
               numColumns={numColumns}
               horizontal={horizontal}
             />

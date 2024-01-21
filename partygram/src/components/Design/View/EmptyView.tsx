@@ -5,25 +5,36 @@ import Text from "@design/Text/Text";
 import { Variables } from "@style";
 import CenteredView from "@design/View/CenteredView";
 import SecondaryButton from "@design/Button/SecondaryButton";
+import DefaultView from "./DefaultView";
 
 type Props = {
-  title: string;
+  title?: string;
   description: string;
-  icon: string;
-  onPress: () => void;
+  icon?: string;
+  onPress?: () => void;
 };
 
 const EmptyView = ({ title, description, icon, onPress }: Props) => {
+  if (!title && !icon && !onPress) {
+    return (
+      <DefaultView>
+        <Text color="light" style={styles.text}>
+          {description}
+        </Text>
+      </DefaultView>
+    )
+  }
+  
   return (
     <CenteredView>
-      <Icons name={`${icon}-outline`} size={Variables.sizes.xxxl} color={Variables.colors.gray} />
-      <Title style={[styles.title, styles.text]}>{title}</Title>
+      {icon ? <Icons name={`${icon}-outline`} size={Variables.sizes.xxxl} color={Variables.colors.gray} /> : null}
+      {title ? <Title style={[styles.title, styles.text]}>{title}</Title> : null}
       <Text color="light" style={styles.text}>
         {description}
       </Text>
-      <SecondaryButton onPress={onPress} style={styles.button}>
+      {onPress ? <SecondaryButton onPress={onPress} style={styles.button}>
         Toevoegen
-      </SecondaryButton>
+      </SecondaryButton> : null}
     </CenteredView>
   );
 };

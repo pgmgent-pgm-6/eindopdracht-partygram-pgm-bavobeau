@@ -21,7 +21,8 @@ export const getProfileById = async (id: string): Promise<Profile> => {
     .from("profiles")
     .select("*")
     .eq("id", id)
-    .single();
+    .single()
+    .throwOnError();
 
   if (error) {
     return Promise.reject(error);

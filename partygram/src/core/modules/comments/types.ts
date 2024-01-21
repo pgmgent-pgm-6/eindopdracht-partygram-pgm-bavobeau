@@ -7,3 +7,9 @@ export type Comment = {
 }
 
 export type Comments = Comment[];
+
+export type CreateCommentBody = {
+  post_id: number;
+  description: string;
+  owner_id: string;
+}

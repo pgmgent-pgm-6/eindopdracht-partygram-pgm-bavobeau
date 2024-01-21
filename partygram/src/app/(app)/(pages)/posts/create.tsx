@@ -1,5 +1,6 @@
 import useTitle from "@core/hooks/useTitle";
 import { createPost } from "@core/modules/posts/api";
+import LoadingIndicator from "@design/LoadingIndicator";
 import DefaultView from "@design/View/DefaultView";
 import { useAuthContext } from "@shared/Auth/AuthProvider";
 import PostForm from "@shared/Post/PostForm";
@@ -9,6 +10,10 @@ const PostCreatePage = () => {
   const router = useRouter();
   const { user } = useAuthContext();
   useTitle("Create post");
+
+  if (!user) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <DefaultView>

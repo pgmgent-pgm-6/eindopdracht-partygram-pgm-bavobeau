@@ -12,7 +12,7 @@ type Props = {
 const PostTitle = ({owner_id, username, description}: Props) => {
   return (
     <View style={styles.container}>
-      <Username owner_id={owner_id} username={username} />
+      <Username id={owner_id} />
       <Text>{!description ? "" : description}</Text>
     </View>
   );

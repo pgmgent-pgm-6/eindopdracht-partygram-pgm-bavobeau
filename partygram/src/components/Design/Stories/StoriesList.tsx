@@ -19,10 +19,7 @@ const StoriesList = () => {
       <DataListView
         method={getOwnerIdFromStoryToday}
         name={["stories"]}
-        emptyTitle="No stories"
         emptyDescription="There are no stories yet"
-        emptyIcon="image"
-        onAddItem={handleCreateStory}
         horizontal={true}
         renderItem={({ item }) => <Story user_id={item.owner_id} />}
       />
