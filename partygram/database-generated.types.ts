@@ -123,29 +123,29 @@ export interface Database {
       posts: {
         Row: {
           created_at: string
-          description: string | null
+          description: string
           id: number
-          image: string | null
+          image: string
           location: string | null
-          owner_id: string | null
+          owner_id: string
           total_likes: number | null
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          description: string
           id?: number
-          image?: string | null
+          image: string
           location?: string | null
-          owner_id?: string | null
+          owner_id: string
           total_likes?: number | null
         }
         Update: {
           created_at?: string
-          description?: string | null
+          description?: string
           id?: number
-          image?: string | null
+          image?: string
           location?: string | null
-          owner_id?: string | null
+          owner_id?: string
           total_likes?: number | null
         }
         Relationships: [

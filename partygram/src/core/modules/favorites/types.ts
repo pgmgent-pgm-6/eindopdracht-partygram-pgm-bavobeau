@@ -1,5 +1,5 @@
 import { Tables } from "database-generated.types";
-import { Post } from "../posts/types";
+import { Post, Posts } from "../posts/types";
 import { Profile } from "../profiles/types";
 import { Body } from "database.types";
 

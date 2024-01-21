@@ -4,7 +4,7 @@ import { Favorites } from "./types";
 export const getFavoritesByUser = async (owner_id: string): Promise<Favorites> => {
   const response = await supabase
     .from("favorites")
-    .select("*, post_id(*)")
+    .select("*")
     .eq("owner_id", owner_id)
     .order("created_at", { ascending: false })
     .throwOnError();
@@ -15,3 +15,47 @@ export const getFavoritesByUser = async (owner_id: string): Promise<Favorites> =
 
   return Promise.resolve(response.data);
 };
+
+export const getPostFavoritesByUser = async (owner_id: string): Promise<Favorites> => {
+  const response = await supabase
+    .from("favorites")
+    .select("*, post_id(*)")
+    .eq("owner_id", owner_id)
+    .order("created_at", { ascending: false })
+    .throwOnError();
+  
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
+}
+
+export const createFavorite = async (owner_id: string, post_id: string): Promise<Favorites> => {
+  const response = await supabase
+    .from("favorites")
+    .insert({ owner_id, post_id })
+    .single()
+    .throwOnError();
+
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
+};
+
+export const deleteFavorite = async (owner_id: string, post_id: string): Promise<Favorites> => {
+  const response = await supabase
+    .from("favorites")
+    .delete()
+    .match({ owner_id, post_id })
+    .single()
+    .throwOnError();
+
+  if (response.error) {
+    throw response.error;
+  }
+
+  return Promise.resolve(response.data);
+}

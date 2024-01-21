@@ -1,18 +1,30 @@
-import { getFavoritesByUser } from "@core/modules/favorites/api";
+import { getPostFavoritesByUser } from "@core/modules/favorites/api";
+import SmallPost from "@design/Posts/SmallPost";
+import Text from "@design/Text/Text";
 import DefaultView from "@design/View/DefaultView"
 import { useAuthContext } from "@shared/Auth/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
+import DataListView from "@shared/Data/DataListView";
 
 const FavoritesPage = () => {
   const { user } = useAuthContext();
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["favorites", user!.id],
-    queryFn: () => getFavoritesByUser(user!.id),
-  })
+
+  if (!user) {
+    return (
+      <DefaultView>
+        <Text>You need to be logged in to see your favorites.</Text>
+      </DefaultView>
+    );
+  }
 
   return (
     <DefaultView>
-
+      <DataListView
+        name={["favorites", user.id]}
+        method={() => getPostFavoritesByUser(user.id)}
+        emptyDescription="You don't have any favorites yet."
+        renderItem={({item}) => (<SmallPost post={item.post_id} />)}
+        numColumns={3}
+      />
     </DefaultView>
   )
 }
