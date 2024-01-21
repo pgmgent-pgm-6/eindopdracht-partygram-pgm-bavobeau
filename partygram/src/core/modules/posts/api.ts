@@ -58,3 +58,17 @@ export const getPostsByUser = async (id: string): Promise<Posts> => {
 
   return Promise.resolve(response.data);
 };
+
+export const getPostsBySearch = async (search: string): Promise<Posts> => {
+  const {data, error} = await supabase
+    .from("posts")
+    .select()
+    .textSearch("description", `"${search}"`)
+    .throwOnError();
+
+  if (error) {
+    throw error;
+  }
+
+  return Promise.resolve(data);
+}
