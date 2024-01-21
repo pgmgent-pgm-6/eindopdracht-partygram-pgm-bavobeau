@@ -17,7 +17,7 @@ const FavoritesPage = () => {
   }
 
   return (
-    <DefaultView>
+    <DefaultView vertical={false}>
       <DataListView
         name={["favorites", user.id]}
         method={() => getPostFavoritesByUser(user.id)}

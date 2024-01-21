@@ -51,7 +51,7 @@ const TabLayout = () => {
         name="favorites"
         options={{
           title: "Favorites",
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Tabs.Screen
