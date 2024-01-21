@@ -1,9 +1,11 @@
+import { createFavorite, deleteFavorite, getFavoriteByPostAndUser } from '@core/modules/favorites/api';
 import { createLike, deleteLike, getLikeByPostAndOwner } from '@core/modules/likes/api';
 import IconButton from '@design/Button/IconButton';
 import { useAuthContext } from '@shared/Auth/AuthProvider';
 import { Variables } from '@style';
+import { useQueries } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 type Props = {
@@ -12,30 +14,28 @@ type Props = {
 
 const PostButtons = ({id}: Props) => {
   const { user } = useAuthContext();
-  const getLike = async () => {
-    try {
-      const res = await getLikeByPostAndOwner(id, user!.id);
-      return res;
-    } catch (error) {
-      return false;
-    }
-  };
-  
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['like', id, user!.id],
+        queryFn: () => getLikeByPostAndOwner(id, user!.id),
+      },{
+        queryKey: ['favorite', id, user!.id],
+        queryFn: () => getFavoriteByPostAndUser(user!.id, id),
+      }
+    ]
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await getLike();
-      if (result) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    if (results[0].data) {
+      setIsLiked(true);
+    }
+    if (results[1].data) {
+      setIsFavorite(true);
+    }
+  }, [results[0].data, results[0].data]);
 
   const handleLike = () => {
     if (isLiked) {
@@ -49,13 +49,21 @@ const PostButtons = ({id}: Props) => {
     router.push(`/comments/${id}`);
   }
 
+  const handleFavorite = () => {
+    if (isFavorite) {
+      deleteFavorite(user!.id, id).finally(() => setIsFavorite(false));
+    } else {
+      createFavorite(user!.id, id).finally(() => setIsFavorite(true));
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.pair}>
         <IconButton icon={isLiked ?  "heart" : "heart-outline"} color={isLiked ? "red" : "black"} title="like button" onPress={handleLike} />
         <IconButton icon="comment-outline" title="comment button" onPress={handleComment} />
       </View>
-      <IconButton icon={isFavorite ? "bookmark" : "bookmark-outline"} color={isFavorite ? "yellow" : "black"} title="bookmark button" onPress={() => {}} />
+      <IconButton icon={isFavorite ? "bookmark" : "bookmark-outline"} color={isFavorite ? "yellow" : "black"} title="bookmark button" onPress={handleFavorite} />
     </View>
   );
 };
