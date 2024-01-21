@@ -11,7 +11,7 @@ type Props = {
   onPress: () => void;
 };
 
-const ListHeaderAvatar = ({ title, avatar, posts, stories, onPress }: Props) => {
+const ListHeaderAvatar = ({ title, avatar, posts, stories, onPress }: Props) => {  
   return (
     <Pressable
       style={styles.pressable}
