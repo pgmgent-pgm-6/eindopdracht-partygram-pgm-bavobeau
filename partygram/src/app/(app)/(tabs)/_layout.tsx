@@ -12,7 +12,7 @@ const getTabIcon = (name: string, focused: boolean) => {
       icon = "magnify";
       return "magnify";
     case "favorites":
-      icon = "heart";
+      icon = "bookmark";
       break;
     case "profile":
       icon = "account";
