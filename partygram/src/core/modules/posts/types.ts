@@ -1,23 +1,12 @@
-export type Post = {
-  id: number;
-  description: string;
-  created_at: Date;
-  owner_id: string;
-  image: string;
-  location: string;
-  total_likes: number;
-};
+import { Tables } from "database-generated.types";
+import { Profile } from "../profiles/types";
+import { Body } from "database.types";
 
-export type Posts = Post[];
+export type Post = Tables<"posts">;
 
-export type CreatePostBody = {
-  owner_id: string;
-  description: string;
-  image: string;
-  location?: string;
-};
+export type PostWithRelations = Post & { owner_id: Profile };
 
-export type UpdatePostBody = {
-  id: number;
-  image: string;
-}
+export type Posts = PostWithRelations[];
+
+export type CreatePostBody = Body<"posts">["Insert"];
+export type UpdatePostBody = Body<"posts">["Update"];

@@ -1,19 +1,12 @@
-export type Story = {
-  id: number;
-  created_at: string;
-  owner_id: string;
-  image: string;
-  location?: string;
-}
+import { Tables } from "database-generated.types";
+import { Profile } from "../profiles/types";
+import { Body } from "database.types";
 
-export type Stories = Story[]
+export type Story = Tables<"stories">;
 
-export type StoriesOwners = {
-  owner_id: string;
-} [];
+export type StoryWithRelations = Story & { owner_id: Profile };
 
-export type CreateStoryBody = {
-  owner_id: string;
-  image: string;
-  location?: string;
-};
+export type Stories = StoryWithRelations[];
+
+export type CreateStoryBody = Body<"stories">["Insert"];
+export type UpdateStoryBody = Body<"stories">["Update"];

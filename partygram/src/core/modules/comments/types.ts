@@ -1,15 +1,13 @@
-export type Comment = {
-  id: number;
-  created_at: string;
-  post_id: number;
-  owner_id: string;
-  description: string;
-}
+import { Tables } from "database-generated.types";
+import { Profile } from "../profiles/types";
+import { Post } from "../posts/types";
+import { Body } from "database.types";
 
-export type Comments = Comment[];
+export type Comment = Tables<"comments">;
 
-export type CreateCommentBody = {
-  post_id: number;
-  description: string;
-  owner_id: string;
-}
+export type CommentWithRelations = Comment & { owner_id: Profile, post_id: Post };
+
+export type Comments = CommentWithRelations[];
+
+export type CreateCommentBody = Body<"comments">["Insert"];
+export type UpdateCommentBody = Body<"comments">["Update"];

@@ -6,7 +6,7 @@ export const getComments = async (post_id: number): Promise<Comments> => {
     .from("comments")
     .select("*")
     .eq("post_id", post_id)
-    .order("created_at", { ascending: true })
+    .order("created_at", { ascending: false })
     .throwOnError();
 
   if (response.error) {

@@ -48,6 +48,42 @@ export interface Database {
           }
         ]
       }
+      favorites: {
+        Row: {
+          created_at: string
+          id: number
+          owner_id: string | null
+          post_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          owner_id?: string | null
+          post_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          owner_id?: string | null
+          post_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       likes: {
         Row: {
           created_at: string
