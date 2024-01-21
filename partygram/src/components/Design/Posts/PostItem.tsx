@@ -64,7 +64,7 @@ const PostItem = ({ post, style }: Props) => {
             {formatDayAndMonth(new Date(post.created_at))}
           </Text>
         </View>
-        <PostTitle owner_id={post.owner_id} username={profile!.username} description={post.description} />
+        <PostTitle owner_id={post.owner_id} description={post.description} />
         <PostComments id={post.id} />
       </View>
     </View>
@@ -73,7 +73,6 @@ const PostItem = ({ post, style }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Variables.sizes.small,
     width: "100%",
   },
   imageContainer: {
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     paddingHorizontal: Variables.sizes.horizontalPadding,
     paddingVertical: Variables.sizes.small,
-    flexDirection: "column",
     flex: 1,
     gap: Variables.sizes.xxs,
   },

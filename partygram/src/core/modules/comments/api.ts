@@ -13,6 +13,10 @@ export const getComments = async (post_id: number): Promise<Comments> => {
     throw response.error;
   }
 
+  if (!response.data) {
+    return Promise.resolve([]);
+  }
+
   return Promise.resolve(response.data);
 }
 

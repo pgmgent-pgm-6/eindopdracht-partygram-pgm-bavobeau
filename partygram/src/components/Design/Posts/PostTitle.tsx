@@ -5,11 +5,10 @@ import { Variables } from '@style';
 
 type Props = {
   owner_id: string;
-  username: string;
   description?: string;
 };
 
-const PostTitle = ({owner_id, username, description}: Props) => {
+const PostTitle = ({owner_id, description}: Props) => {
   return (
     <View style={styles.container}>
       <Username id={owner_id} />
@@ -21,7 +20,6 @@ const PostTitle = ({owner_id, username, description}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    flex: 1,
     gap: Variables.sizes.xs,
   }
 })
