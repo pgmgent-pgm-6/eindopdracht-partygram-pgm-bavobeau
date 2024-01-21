@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "supabase": "supabase gen types typescript --project-id smvakiekkdyywolpzmbd > database-generated.types.ts"
+    "supabase": "fetch-supabase.sh"
   },
   "jest": {
     "preset": "jest-expo"

@@ -17,6 +17,10 @@ export const getLikeByPostAndOwner = async (
     throw response.error;
   }
 
+  if (!response.data) {
+    throw new Error("Like not found");
+  }
+
   return Promise.resolve(response.data);
 };
 
