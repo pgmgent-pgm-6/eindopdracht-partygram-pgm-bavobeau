@@ -1,6 +1,7 @@
 import { createFavorite, deleteFavorite, getFavoriteByPostAndUser } from '@core/modules/favorites/api';
 import { createLike, deleteLike, getLikeByPostAndOwner } from '@core/modules/likes/api';
 import IconButton from '@design/Button/IconButton';
+import LoadingIndicator from '@design/LoadingIndicator';
 import { useAuthContext } from '@shared/Auth/AuthProvider';
 import { Variables } from '@style';
 import { useQueries } from '@tanstack/react-query';
@@ -56,6 +57,8 @@ const PostButtons = ({id}: Props) => {
       createFavorite(user!.id, id).finally(() => setIsFavorite(true));
     }
   }
+
+  if (results[0].isLoading || results[1].isLoading) return <LoadingIndicator />;
 
   return (
     <View style={styles.container}>
