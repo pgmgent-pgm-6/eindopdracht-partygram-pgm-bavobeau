@@ -44,6 +44,8 @@ const DataListView = <T extends { id: number }>({ name, method, emptyTitle, empt
               ItemSeparatorComponent={separator}
               numColumns={numColumns}
               horizontal={horizontal}
+              maxToRenderPerBatch={3}
+              initialNumToRender={10}
             />
           </DefaultView>
         )
