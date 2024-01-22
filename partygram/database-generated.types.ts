@@ -161,27 +161,27 @@ export interface Database {
       profiles: {
         Row: {
           avatar: string | null
-          condition: boolean | null
-          first_name: string | null
+          condition: boolean
+          first_name: string
           id: string
-          last_name: string | null
-          username: string | null
+          last_name: string
+          username: string
         }
         Insert: {
           avatar?: string | null
-          condition?: boolean | null
-          first_name?: string | null
+          condition: boolean
+          first_name: string
           id: string
-          last_name?: string | null
-          username?: string | null
+          last_name: string
+          username: string
         }
         Update: {
           avatar?: string | null
-          condition?: boolean | null
-          first_name?: string | null
+          condition?: boolean
+          first_name?: string
           id?: string
-          last_name?: string | null
-          username?: string | null
+          last_name?: string
+          username?: string
         }
         Relationships: [
           {

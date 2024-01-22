@@ -6,9 +6,8 @@ export const getStories = async (): Promise<Stories> => {
     .from("stories")
     .select("*")
     .order("created_at", { ascending: false })
-    .throwOnError()
-    .limit(10);
-
+    .throwOnError();
+    
   if (response.error) {
     throw response.error;
   }
