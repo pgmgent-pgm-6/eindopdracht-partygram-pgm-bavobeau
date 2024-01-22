@@ -1,20 +1,19 @@
 import { supabase } from "@core/api/supabase";
 import { Thread, Threads, CreateThreadBody, ThreadsWithRelations } from "./types";
 
-export const getThreadsById = async (uid: string): Promise<Threads> => {
-  const response = await supabase
+export const getThreadsByUsers = async (ownerId: string, receiverId: string): Promise<ThreadsWithRelations[] | null> => {
+  const { data, error } = await supabase
     .from("threads")
-    .select("*")
-    .eq("owner_id", uid)
-    .or(`receiver_id.eq.${uid}`)
-    .order("created_at", { ascending: false })
-    .throwOnError();
+    .select("*, receiver_id(*), owner_id(*)")
+    .or(`owner_id.eq.${ownerId}, receiver_id.eq.${ownerId}`)
+    .or(`owner_id.eq.${receiverId}, receiver_id.eq.${receiverId}`)
+    .order("created_at", { ascending: false });
 
-  if (response.error) {
-    throw response.error;
+  if (error) {
+    throw error;
   }
 
-  return Promise.resolve(response.data);
+  return Promise.resolve(data);
 }
 
 export const getLastThreads = async (uid: string): Promise<Threads | null> => {
@@ -29,7 +28,7 @@ export const getLastThreads = async (uid: string): Promise<Threads | null> => {
   }
 
   // Create an array to store the last thread for each user ID
-  const lastThreads: Thread[] = [];
+  const lastThreads: ThreadsWithRelations[] = [];
 
   // If there is no data, return null
   if (!data || data.length === 0) {
@@ -40,7 +39,7 @@ export const getLastThreads = async (uid: string): Promise<Threads | null> => {
   const latestThreadsMap: { [userId: string]: Thread } = {};
 
   // Iterate through the results and update the latestThreadsMap
-  data.forEach((thread: Thread) => {
+  data.forEach((thread: ThreadsWithRelations) => {
     const userId = thread.owner_id.id === uid ? thread.receiver_id.id : thread.owner_id.id;
 
     if (!latestThreadsMap[userId]) {
@@ -55,3 +54,17 @@ export const getLastThreads = async (uid: string): Promise<Threads | null> => {
 
   return Promise.resolve(lastThreads);
 };
+
+export const createThread = async (thread: CreateThreadBody): Promise<Thread> => {
+  const { data, error } = await supabase
+    .from("threads")
+    .insert(thread)
+    .single()
+    .throwOnError();
+
+  if (error) {
+    throw Promise.reject(error);
+  }
+
+  return Promise.resolve(data);
+}

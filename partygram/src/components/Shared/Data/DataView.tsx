@@ -17,7 +17,7 @@ const DataView = <T extends Object>({ name, method, render, getTitle, showTitle 
   const { data, isLoading, isError, error } = useQuery({
     queryFn: method,
     queryKey: name,
-    refetchInterval: 1000,
+    refetchInterval: 10000,
   });
 
   useTitle(showTitle ? (data && getTitle ? getTitle(data) : "") : null);

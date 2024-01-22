@@ -47,9 +47,6 @@ const CommentsDetailScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   form: {
     flexGrow: 0.3,
   }
