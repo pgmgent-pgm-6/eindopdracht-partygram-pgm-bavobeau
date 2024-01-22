@@ -6,15 +6,29 @@ import DefaultView from "@design/View/DefaultView";
 import DataListView from "@shared/Data/DataListView";
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { getData } from "@core/modules/data/api";
 
 const Index = () => {
   const router = useRouter();
+  const [stories, setStories] = useState<Boolean>(true);
+
+  useEffect(() => {
+    getData().then((res) => {
+      if (!res) {
+        setStories(true);
+      }
+      setStories(res.stories);
+    });
+  }, []);
 
   return (
     <>
       <DefaultView vertical={true} >
         <Header title="Partygram" icon="message-outline" iconTitle="messages" iconOnPress={() => router.push("/threads/")} style={styles.header} iconMiddle="plus" iconMiddleTitle="Create post" iconMiddleOnPress={() =>  router.push("/posts/create")} />
-        <StoriesList />
+        {stories && (
+          <StoriesList />
+        )}
         <DataListView 
           method={getPosts}
           name={["posts"]}

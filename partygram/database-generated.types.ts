@@ -225,6 +225,45 @@ export interface Database {
           }
         ]
       }
+      threads: {
+        Row: {
+          created_at: string
+          id: number
+          message: string
+          owner_id: string
+          receiver_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          message: string
+          owner_id: string
+          receiver_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          message?: string
+          owner_id?: string
+          receiver_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "threads_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "threads_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
