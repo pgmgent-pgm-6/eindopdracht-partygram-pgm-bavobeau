@@ -31,7 +31,6 @@ export const getProfileById = async (id: string): Promise<Profile> => {
 };
 
 export const updateProfile = async (profile: UpdateProfileBody) => {
-  console.log(profile);
   const response = await supabase
     .from("profiles")
     .update(profile)
