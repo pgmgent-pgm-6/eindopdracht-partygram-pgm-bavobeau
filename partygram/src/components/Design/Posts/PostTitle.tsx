@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "baseline",
-    gap: Variables.sizes.xs,
-  }
+  },
 })
 
 export default PostTitle;

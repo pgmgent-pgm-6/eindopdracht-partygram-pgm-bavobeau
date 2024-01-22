@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     gap: Variables.sizes.xs,
+    paddingRight: Variables.sizes.xs,
   },
   username: {
     fontFamily: Variables.fonts.bold,
