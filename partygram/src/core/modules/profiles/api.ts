@@ -2,7 +2,7 @@ import { supabase } from "@core/api/supabase";
 import { getCurrentSession } from "../auth/api";
 import { uploadImage } from "../files/api";
 import { Bucket } from "../files/constants";
-import { Profile } from "./types";
+import { Profile, UpdateProfileBody } from "./types";
 
 export const getProfiles = async () => {
   const { data, error } = await supabase
@@ -30,19 +30,21 @@ export const getProfileById = async (id: string): Promise<Profile> => {
   return Promise.resolve(data);
 };
 
-export const updateProfile = async (profile: any) => {
-  const session = await getCurrentSession();
-  const { data, error } = await supabase
+export const updateProfile = async (profile: UpdateProfileBody) => {
+  console.log(profile);
+  const response = await supabase
     .from("profiles")
     .update(profile)
-    .eq("id", session?.user.id)
+    .eq("id", profile.id)
+    .throwOnError()
     .single();
 
-  if (error) {
-    return Promise.reject(error);
+  if (response.error) {
+    return Promise.reject(response.error);
   }
-  return Promise.resolve(data);
-};
+
+  return Promise.resolve(response.data);
+}
 
 export const updateProfileAvatar = async (avatar: string) => {
   const session = await getCurrentSession();
