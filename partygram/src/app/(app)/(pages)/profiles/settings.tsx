@@ -1,5 +1,8 @@
+import useTitle from "@core/hooks/useTitle";
+import { logout } from "@core/modules/auth/api";
 import { getData, storeData } from "@core/modules/data/api";
 import { Data } from "@core/modules/data/types";
+import Button from "@design/Button/Button";
 import DefaultView from "@design/View/DefaultView";
 import DataForm from "@shared/Data/DataForm";
 import { useRouter } from "expo-router";
@@ -7,6 +10,7 @@ import { useEffect, useState } from "react";
 
 const ProfileSettingsPage = () => {
   const router = useRouter();
+  useTitle("Profile settings");
   const [data, setData] = useState<Data>();
 
   useEffect(() => {
@@ -34,6 +38,7 @@ const ProfileSettingsPage = () => {
           }}
         />
       )}
+      <Button onPress={logout}>Logout</Button>
     </DefaultView>
   );
 };
